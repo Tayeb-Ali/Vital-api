@@ -23,7 +23,7 @@ class AuthControllerApi extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'phone' => 'required|string',
+            'phone' => 'required',
             'password' => 'required|string',
         ]);
 
@@ -51,7 +51,7 @@ class AuthControllerApi extends Controller
                 'error' => false,
                 'token_type' => 'bearer',
                 'token' => $token,
-                'expires_in' => Auth::factory()->getTTL(),
+                'expires_in' => Auth::factory()->getTTL()* 89698,
                 'user' => Auth::user(),
             ]);
         }
@@ -98,7 +98,6 @@ class AuthControllerApi extends Controller
 
         $status = env('STATUS_NEW');
         $validator = Validator::make($request->all(), [
-            'email' => 'email|unique:users',
             'name' => 'required|max:255',
             'phone' => 'required|unique:users|max:10',
             'password' => 'required|max:30|min:6'
