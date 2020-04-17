@@ -26,51 +26,50 @@ class AuthControllerApi extends Controller
      */
     public function login(Request $request)
     {
-        $validate = Validate::make($request->all(), [
-            'phone' => 'required',
-            'password' => 'required|string',
-        ]);
+//        $validate = Validate::make($request->all(), [
+//            'phone' => 'required',
+//            'password' => 'required|string',
+//        ]);
+//
+//        if ($validate->fails()) {
+//            return Response()->json(['success' => false,
+//                'error' => false, 'message' => $validate->messages()->first()]);
+//        } else {
 
-        if ($validate->fails()) {
-            return Response()->json(['success' => false,
-                'error' => false, 'message' => $validate->messages()->first()]);
-        } else {
+        $credentials = $request->only(['phone', 'password']);
 
-            $credentials = $request->only(['phone', 'password']);
-
-            if (!$token = Auth::attempt($credentials)) {
-                return response()->json([
-                    'success' => false,
-                    'error' => true,
-                    'message' => 'Invalid Phone or Password',
-                ], 200);
-            }
-
-            if (!empty($request->fcm_registration_id)) {
-                $user = Auth::user();
-                DB::table('users')
-                    ->where('id', $user->id)
-                    ->update(['fcm_registration_id' => $request->fcm_registration_id]);
-            }
-            //medical_director or doctors
-            $user = Auth::user();
-            if ($user->role == $request->role) {
-                return response()->json([
-                    'success' => true,
-                    'error' => false,
-                    'token_type' => 'bearer',
-                    'token' => $token,
-                    'expires_in' => Auth::factory()->getTTL() * 89698,
-                    'user' => Auth::user(),
-                ]);
-            }
-
+        if (!$token = Auth::attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'error' => false,
-                'message' => "not your app"]);
+                'error' => true,
+                'message' => 'Invalid Phone or Password',
+            ], 200);
         }
 
+        if (!empty($request->fcm_registration_id)) {
+            $user = Auth::user();
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['fcm_registration_id' => $request->fcm_registration_id]);
+        }
+        //medical_director or doctors
+        $user = Auth::user();
+        if ($user->role == $request->role) {
+            return response()->json([
+                'success' => true,
+                'error' => false,
+                'token_type' => 'bearer',
+                'token' => $token,
+                'expires_in' => Auth::factory()->getTTL() * 89698,
+                'user' => Auth::user(),
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'error' => false,
+            'message' => "not your app"]);
+//        }
 
     }
 
