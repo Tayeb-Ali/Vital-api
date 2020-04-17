@@ -3,7 +3,7 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    RewriteEngine On
+#    RewriteEngine On
 
   # with AJAX withCredentials=false (cookies NOT sent)
     Header always set Access-Control-Allow-Origin "*"
