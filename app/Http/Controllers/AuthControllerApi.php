@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\User;
 use Illuminate\Http\Request;
@@ -51,7 +50,7 @@ class AuthControllerApi extends Controller
                 'error' => false,
                 'token_type' => 'bearer',
                 'token' => $token,
-                'expires_in' => Auth::factory()->getTTL() * 89698,
+                'expires_in' => Auth::factory()->getTTL(),
                 'user' => Auth::user(),
             ]);
         }
