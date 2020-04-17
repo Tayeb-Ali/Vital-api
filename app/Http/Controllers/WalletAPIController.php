@@ -6,8 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Wallet;
 use App\Repositories\WalletRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class WalletController
