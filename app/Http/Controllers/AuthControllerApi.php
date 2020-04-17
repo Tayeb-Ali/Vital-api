@@ -26,15 +26,6 @@ class AuthControllerApi extends Controller
      */
     public function login(Request $request)
     {
-//        $validate = Validate::make($request->all(), [
-//            'phone' => 'required',
-//            'password' => 'required|string',
-//        ]);
-//
-//        if ($validate->fails()) {
-//            return Response()->json(['success' => false,
-//                'error' => false, 'message' => $validate->messages()->first()]);
-//        } else {
 
         $credentials = $request->only(['phone', 'password']);
 
