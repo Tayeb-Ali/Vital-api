@@ -20,48 +20,59 @@ class AuthControllerApi extends Controller
     public $loginAfterSignUp = true;
 
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request)
     {
-        $this->validate($request, [
+        $validate = Validate::make($request->all(), [
             'phone' => 'required',
             'password' => 'required|string',
         ]);
 
-        $credentials = $request->only(['phone', 'password']);
+        if ($validate->fails()) {
+            return Response()->json(['success' => false,
+                'error' => false, 'message' => $validate->messages()->first()]);
+        } else {
 
-        if (!$token = Auth::attempt($credentials)) {
+            $credentials = $request->only(['phone', 'password']);
+
+            if (!$token = Auth::attempt($credentials)) {
+                return response()->json([
+                    'success' => false,
+                    'error' => true,
+                    'message' => 'Invalid Phone or Password',
+                ], 200);
+            }
+
+            if (!empty($request->fcm_registration_id)) {
+                $user = Auth::user();
+                DB::table('users')
+                    ->where('id', $user->id)
+                    ->update(['fcm_registration_id' => $request->fcm_registration_id]);
+            }
+            //medical_director or doctors
+            $user = Auth::user();
+            if ($user->role == $request->role) {
+                return response()->json([
+                    'success' => true,
+                    'error' => false,
+                    'token_type' => 'bearer',
+                    'token' => $token,
+                    'expires_in' => Auth::factory()->getTTL() * 89698,
+                    'user' => Auth::user(),
+                ]);
+            }
+
             return response()->json([
                 'success' => false,
-                'error' => true,
-                'message' => 'Invalid Phone or Password',
-            ], 200);
-        }
-
-        if (!empty($request->fcm_registration_id)) {
-            $user = Auth::user();
-            DB::table('users')
-                ->where('id', $user->id)
-                ->update(['fcm_registration_id' => $request->fcm_registration_id]);
-        }
-        //medical_director or doctors
-        $user = Auth::user();
-        if ($user->role == $request->role) {
-            return response()->json([
-                'success' => true,
                 'error' => false,
-                'token_type' => 'bearer',
-                'token' => $token,
-                'expires_in' => Auth::factory()->getTTL()* 89698,
-                'user' => Auth::user(),
-            ]);
+                'message' => "not your app"]);
         }
 
-        return response()->json([
-            'success' => false,
-            'error' => false,
-            'message' => "not your app"]);
-    }
 
+    }
 
     /**
      * @param Request $request
@@ -82,6 +93,7 @@ class AuthControllerApi extends Controller
                 'message' => 'User logged out successfully'
             ]);
         } catch (JWTException $exception) {
+
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, the user cannot be logged out'
