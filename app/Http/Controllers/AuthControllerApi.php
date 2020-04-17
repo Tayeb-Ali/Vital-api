@@ -119,9 +119,9 @@ class AuthControllerApi extends Controller
         ]);
 
 
-        if ($this->loginAfterSignUp) {
-            return $this->login($request);
-        }
+//        if ($this->loginAfterSignUp) {
+//            return $this->login($request);
+//        }
 
         return [
             'success' => true,
