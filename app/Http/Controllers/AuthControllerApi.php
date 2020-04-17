@@ -119,15 +119,11 @@ class AuthControllerApi extends Controller
         ]);
 
 
-//        if ($this->loginAfterSignUp) {
-//            return $this->login($request);
-//        }
-
-        return [
+        return response()->json([
             'success' => true,
             'error' => false,
             'data' => $user
-        ];
+        ]);
     }
 
     /**
