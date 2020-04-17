@@ -123,11 +123,11 @@ class AuthControllerApi extends Controller
             return $this->login($request);
         }
 
-        return response()->json([
+        return [
             'success' => true,
             'error' => false,
             'data' => $user
-        ], 200);
+        ];
     }
 
     /**
