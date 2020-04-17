@@ -24,7 +24,7 @@ class WalletAPIController extends AppBaseController
 
     /**
      * @param Request $request
-     * @return Response
+     * @return bool
      *
      * @SWG\Get(
      *      path="/wallets",
@@ -59,9 +59,9 @@ class WalletAPIController extends AppBaseController
         $user = Auth::user();
         if ($user) {
             $wallets = Wallet::where('user_id', $user->id)->first();
-            return $this->sendResponse($wallets->toArray(), 'Wallets retrieved successfully');
+            return $this->sendResponse($wallets, 'Wallets retrieved successfully');
         }
-        return false;
+        return response()->json(['status' => false, 'error' => true, 'message' => 'token']);
     }
 
     /**
