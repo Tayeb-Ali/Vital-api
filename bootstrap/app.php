@@ -59,6 +59,9 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('cors');
+$app->configure('auth');
+$app->configure('swoole_websocket');
+$app->configure('swoole_http');
 
 
 /*
