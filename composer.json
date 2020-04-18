@@ -9,6 +9,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "laravel/lumen-framework": "^6.0",
         "league/flysystem": "^1.0",
+        "swooletw/laravel-swoole": "^2.6",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
