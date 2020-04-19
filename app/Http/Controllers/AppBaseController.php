@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Support\Facades\Response;
-
 /**
  * @SWG\Swagger(
  *   basePath="/api/v1",
