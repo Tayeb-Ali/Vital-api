@@ -1,10 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use App\Http\Middleware\Authenticate;
+use App\Providers\ConfigServiceProvider;
+use Fruitcake\Cors\CorsServiceProvider;
+use Fruitcake\Cors\HandleCors;
+use Tymon\JWTAuth\Providers\LumenServiceProvider;
+
+require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
+
+date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +29,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
+ $app->withFacades();
 
-$app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -58,11 +66,6 @@ $app->singleton(
 */
 
 $app->configure('app');
-//$app->configure('cors');
-//$app->configure('auth');
-//$app->configure('swoole_websocket');
-//$app->configure('swoole_http');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -94,18 +97,16 @@ $app->routeMiddleware([
 |
 */
 
-$app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
+ $app->register(App\Providers\AppServiceProvider::class);
+ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-$app->register(SwooleTW\Http\LumenServiceProvider::class);
 $app->register(App\Providers\ConfigServiceProvider::class);
 
 if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -120,7 +121,7 @@ if ($app->environment() !== 'production') {
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__ . '/../routes/api.php';
+    require __DIR__.'/../routes/api.php';
 });
 
 return $app;
