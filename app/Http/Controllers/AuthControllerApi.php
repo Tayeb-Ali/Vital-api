@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\User;
 use Illuminate\Http\Request;
@@ -25,7 +26,14 @@ class AuthControllerApi extends Controller
      */
     public function login(Request $request)
     {
-
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|max:10|min:10',
+            'password' => 'required|max:30|min:6',
+            'role' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["message" => $validator->messages()->first(), "error" => true]);
+        }
         $credentials = $request->only(['phone', 'password']);
 
         if (!$token = Auth::attempt($credentials)) {
@@ -100,7 +108,7 @@ class AuthControllerApi extends Controller
         $status = env('STATUS_NEW');
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'phone' => 'required|unique:users|max:10',
+            'phone' => 'required|unique:users|max:10|min:10',
             'password' => 'required|max:30|min:6'
         ]);
         if ($validator->fails()) {
