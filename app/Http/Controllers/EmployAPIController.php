@@ -7,8 +7,7 @@ use App\Models\Wallet;
 use App\Repositories\EmployRepository;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
