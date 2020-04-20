@@ -12,5 +12,5 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 'DetaTech ( 1.1.3) api V 2';
 });
