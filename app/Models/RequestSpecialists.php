@@ -99,6 +99,16 @@ class RequestSpecialists extends Model
     ];
 
     /**
+     * @param $value
+     * @throws \Exception
+     */
+    public function setDateAttribute($value)
+    {
+        $this->attributes['start_time'] = (new Carbon($value))->format('yyyy-MM-dd');
+        $this->attributes['end_time'] = (new Carbon($value))->format('yyyy-MM-dd');
+    }
+
+    /**
      * @param $medical_id
      * @return bool
      */

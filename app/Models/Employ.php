@@ -93,6 +93,17 @@ class Employ extends Model
     ];
 
     /**
+     * @param $value
+     * @throws \Exception
+     */
+    public function setDateAttribute($value)
+    {
+        $this->attributes['graduation_date'] = (new Carbon($value))->format('yyyy-MM-dd');
+        $this->attributes['birth_of_date'] = (new Carbon($value))->format('yyyy-MM-dd');
+        $this->attributes['registration_date'] = (new Carbon($value))->format('yyyy-MM-dd');
+    }
+
+    /**
      * @return BelongsTo
      **/
     public function doctor()
