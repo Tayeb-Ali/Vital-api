@@ -20,7 +20,7 @@ class CreatePharmaciesTable extends Migration
             $table->integer('dose');
             $table->boolean('company')->default(true);
             $table->string('type');
-            $table->double('price')->nullable();
+            $table->float('price')->nullable();
             $table->boolean('available')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pharmacy_id')->nullable();

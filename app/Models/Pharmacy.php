@@ -91,7 +91,7 @@ class Pharmacy extends Model
         'company' => 'boolean',
         'type' => 'string',
         'available' => 'boolean',
-        'price' => 'double',
+        'price' => 'float',
         'user_id' => 'integer',
         'pharmacy_id' => 'integer'
     ];

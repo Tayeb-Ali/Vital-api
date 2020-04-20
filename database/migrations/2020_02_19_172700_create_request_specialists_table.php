@@ -20,7 +20,7 @@ class CreateRequestSpecialistsTable extends Migration
             $table->date('start_time');
             $table->date('end_time');
             $table->integer('number_of_hour');
-            $table->double('price');
+            $table->float('price');
             $table->integer('status')->default(1);
             $table->double('longitude');
             $table->double('latitude');

@@ -81,27 +81,16 @@ class Employ extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'graduation_date' => 'date',
-        'birth_of_date' => 'date',
+        'graduation_date' => 'date:Y-m-d',
+        'birth_of_date' => 'date:Y-m-d',
         'medical_registration_number' => 'string',
-        'registration_date' => 'date',
+        'registration_date' => 'date:Y-m-d',
         'address' => 'string',
         'years_of_experience' => 'integer',
         'cv' => 'string',
         'user_id' => 'integer',
         'medical_field_id' => 'integer'
     ];
-
-    /**
-     * @param $value
-     * @throws \Exception
-     */
-    public function setDateAttribute($value)
-    {
-        $this->attributes['graduation_date'] = (new Carbon($value))->format('yyyy-MM-dd');
-        $this->attributes['birth_of_date'] = (new Carbon($value))->format('yyyy-MM-dd');
-        $this->attributes['registration_date'] = (new Carbon($value))->format('yyyy-MM-dd');
-    }
 
     /**
      * @return BelongsTo
