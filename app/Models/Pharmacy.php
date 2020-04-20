@@ -81,6 +81,23 @@ class Pharmacy extends Model
 
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'string',
+        'address' => 'string',
+        'company' => 'boolean',
+        'type' => 'string',
+        'available' => 'boolean',
+        'price' => 'double',
+        'user_id' => 'integer',
+        'pharmacy_id' => 'integer'
+    ];
+
+
+    /**
      * @return BelongsTo
      **/
     public function user()

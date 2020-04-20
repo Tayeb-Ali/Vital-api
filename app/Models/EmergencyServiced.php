@@ -85,6 +85,22 @@ class EmergencyServiced extends Model
         'type',
         'available'];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'contact' => 'string',
+        'address' => 'string',
+        'price_per_day' => 'double',
+        'type' => 'string',
+        'available' => 'integer',
+        'user_id' => 'integer'
+    ];
+
 
     public function user()
     {

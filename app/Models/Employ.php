@@ -75,6 +75,24 @@ class Employ extends Model
     ];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'graduation_date' => 'date',
+        'birth_of_date' => 'date',
+        'medical_registration_number' => 'string',
+        'registration_date' => 'date',
+        'address' => 'string',
+        'years_of_experience' => 'integer',
+        'cv' => 'string',
+        'user_id' => 'integer',
+        'medical_field_id' => 'integer'
+    ];
+
+    /**
      * @return BelongsTo
      **/
     public function doctor()

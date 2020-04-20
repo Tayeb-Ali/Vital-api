@@ -64,6 +64,17 @@ class AcceptRequestSpecialists extends Model
         'request_id'
     ];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'note' => 'string',
+        'recommendation' => 'string',
+        'doctor_id' => 'integer',
+        'request_id' => 'integer'
+    ];
 
     /**
      * @return BelongsTo

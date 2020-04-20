@@ -48,6 +48,16 @@ class MedicalField extends Model
     ];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string'
+    ];
+
+    /**
      * @return HasMany
      */
     public function medical()

@@ -82,6 +82,23 @@ class RequestSpecialists extends Model
 
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'string',
+        'address' => 'string',
+        'start_time' => 'date',
+        'end_time' => 'date',
+        'longitude' => 'string',
+        'latitude' => 'string',
+        'user_id' => 'integer',
+        'doctor_id' => 'integer',
+        'medical_id' => 'integer'
+    ];
+
+    /**
      * @param $medical_id
      * @return bool
      */

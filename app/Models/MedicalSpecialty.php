@@ -20,6 +20,18 @@ class MedicalSpecialty extends Model
         'medical_id'
     ];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'medical_id' => 'integer'
+    ];
+
+
 
     public function medical()
     {

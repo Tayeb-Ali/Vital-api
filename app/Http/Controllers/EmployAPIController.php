@@ -57,7 +57,7 @@ class EmployAPIController extends AppBaseController
         $request->merge(['cv' => 'null']);
         $input = $request->all();
         $employ = $this->employRepository->createApi($input);
-        $user = User::where('id', Auth::user()->user()->id)->first();
+        $user = User::where('id', Auth::user()->id)->first();
         $user->status = env('STATUS_MEDICAL');
         $user->save();
         $wallet = new Wallet();
@@ -136,7 +136,7 @@ class EmployAPIController extends AppBaseController
 
     public function saveFile($request)
     {
-        $userId = Auth::user()->user()->id;
+        $userId = Auth::user()->id;
         $random = Str::random(10);
         if ($request->hasfile('cv')) {
             $image = $request->file('cv');

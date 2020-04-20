@@ -17,8 +17,8 @@ class CreateAmbulancesTable extends Migration
             $table->bigincrements('id');
             $table->string('title');
             $table->string('address');
-            $table->string('longitude')->default(0.0);
-            $table->string('latitude')->default(0.0);
+            $table->double('longitude')->default(0.0);
+            $table->double('latitude')->default(0.0);
             $table->integer('status')->default(1);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

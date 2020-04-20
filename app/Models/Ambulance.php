@@ -76,6 +76,21 @@ class Ambulance extends Model
 
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'title' => 'string',
+        'address' => 'string',
+        'longitude' => 'double',
+        'latitude' => 'double',
+        'status' => 'integer',
+        'user_id' => 'integer'
+    ];
+
+
+    /**
      * @return BelongsTo
      **/
     public function user()

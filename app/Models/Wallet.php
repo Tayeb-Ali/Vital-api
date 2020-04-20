@@ -53,6 +53,17 @@ class Wallet extends Model
     ];
 
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'balance' => 'integer',
+        'user_id' => 'integer'
+    ];
+
+
     public function createWallet()
     {
         $user = Auth::user()->id;

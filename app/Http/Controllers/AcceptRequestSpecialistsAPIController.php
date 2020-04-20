@@ -128,7 +128,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
     public function acceptRequestByUser($requestId)
     {
 //        return $request->header();
-        $doctor_id = Auth::user()->user()->id;
+        $doctor_id = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->acceptRequestByUser($requestId, $doctor_id);
     }
@@ -142,7 +142,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function acceptRequestByAdmin($requestId)
     {
-        $userId = Auth::user()->user()->id;
+        $userId = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->acceptRequestByAdmin($requestId, $userId);
     }
@@ -157,7 +157,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function cancelRequestByAdmin($requestId)
     {
-        $userId = Auth::user()->user()->id;
+        $userId = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->cancelRequestByAdmin($requestId, $userId);
     }
@@ -171,7 +171,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function cancelRequestByUser($requestId)
     {
-        $userId = Auth::user()->user()->id;
+        $userId = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->cancelRequestByUser($requestId, $userId);
     }
@@ -187,7 +187,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function acceptRequestAndDone(Request $request, $requestId)
     {
-        $userId = Auth::user()->user()->id;
+        $userId = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->acceptRequestAndDone($requestId, $request, $userId);
     }

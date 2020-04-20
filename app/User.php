@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\{AcceptRequestSpecialists, Wallet, EmergencyServiced, Employ};
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -37,6 +38,23 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'email' => 'string',
+        'phone' => 'string',
+        'role' => 'integer',
+        'status' => 'integer',
+        'fcm_registration_id' => 'string',
+        'email_verified_at' => 'datetime',
+    ];
+
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -65,7 +83,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function createWallet()
     {
-        $user = Auth::user()->user()->id;
+        $user = Auth::user()->id;
         $wallet = new Wallet();
         $wallet->balance = env('BALANCE');
         $wallet->user_id = $user;
