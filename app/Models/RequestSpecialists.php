@@ -91,8 +91,8 @@ class RequestSpecialists extends Model
         'address' => 'string',
         'start_time' => 'date',
         'end_time' => 'date',
-        'longitude' => 'string',
-        'latitude' => 'string',
+        'longitude' => 'double',
+        'latitude' => 'double',
         'user_id' => 'integer',
         'doctor_id' => 'integer',
         'medical_id' => 'integer'
