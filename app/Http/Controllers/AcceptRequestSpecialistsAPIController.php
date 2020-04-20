@@ -138,7 +138,7 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      * POST /acceptRequestByAdmin/{id}
      *
      * @param int $requestId
-     * @return Response
+     * @return array
      */
     public function acceptRequestByAdmin($requestId)
     {

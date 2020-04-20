@@ -10,9 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Auth;
-use Response;
 
 /**
  * Class RequestSpecialistsController
@@ -31,11 +29,9 @@ class RequestSpecialistsAPIController extends AppBaseController
     /**
      * Display a listing of the RequestSpecialists.
      * GET|HEAD /requestSpecialists
-     *
-     * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function index(Request $request)
+    public function index()
     {
         return $this->requestSpecialistsRepository
             ->WhereWithPaginate('status', 1, 2, ['specialties.medical', 'user', 'acceptRequest.doctor.employ']);
@@ -52,12 +48,18 @@ class RequestSpecialistsAPIController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $requestSpecialistsModle = new  RequestSpecialists();
-        $requestSpecialistsModle->users_notfication($request->medical_id);
-
         $requestSpecialists = $this->requestSpecialistsRepository->createApi($input);
-
-        return $this->sendResponse($requestSpecialists->toArray(), 'Request Specialists saved successfully');
+        if ($requestSpecialists) {
+            $user = Auth::user();
+            if ($user) {
+                $wallet = Wallet::where('user_id', $user->id)->first();
+                $wallet->balance = $wallet->balance - env('REQUEST_POINT');
+                $wallet->save();
+            }
+            $requestSpecialistsModle = new  RequestSpecialists();
+            $requestSpecialistsModle->users_notfication($request->medical_id);
+            return $this->sendResponse($requestSpecialists->toArray(), 'Request Specialists saved successfully');
+        }
     }
 
     /**
