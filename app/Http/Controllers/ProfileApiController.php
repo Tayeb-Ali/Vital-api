@@ -41,10 +41,10 @@ class ProfileApiController extends Controller
                 $userModel = Employ::whereUserId($user->id)->first();
                 $userModel->cv = $cvFile;
                 $userModel->save();
-                return response()->json(['error' => false, 'message' => 'file add successful']);
+                return response()->json(['error' => false, 'message' => 'file add successful', 'eq'=> $cvFile]);
 
             } else {
-                return response()->json(['error' => true, 'message' => 'no file uploaded']);
+                return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq'=> $cvFile]);
             }
         }
         return response()->json(['error' => true, 'message' => 'user not found']);
