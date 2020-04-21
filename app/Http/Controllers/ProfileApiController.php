@@ -74,14 +74,14 @@ class ProfileApiController extends Controller
     public function saveFile($request)
     {
         $random = Str::random(10);
-        if ($request->hasfile('image')) {
+        if ($request->hasfile('cv')) {
             $image = $request->file('cv');
             $name = $random . 'cv_' . self::dateNow() . ".pdf";
-            $image->move(public_path() . '/upload/cv/', $name);
-            $name = url("upload/image/$name");
+            $image->move(public_path() . '/cv/', $name);
+            $name = url("cv/$name");
             return $name;
         }
-        return false;
+        return $request;
     }
 
     public function saveImage($request)
@@ -90,7 +90,7 @@ class ProfileApiController extends Controller
         if ($request->hasfile('image')) {
             $image = $request->file('image');
             $name = $random . 'cv_' . self::dateNow() . ".jpg";
-            $image->move(public_path() . '/upload/cv/', $name);
+            $image->move(public_path() . '/upload/image/', $name);
             $name = url("upload/image/$name");
             return $name;
         }
