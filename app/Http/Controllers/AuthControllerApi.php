@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -178,12 +179,16 @@ class AuthControllerApi extends Controller
     }
 
 
+    /**
+     * @param $request
+     * @return string
+     */
     public function saveImage($request)
     {
         $random = Str::random(10);
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $random . 'profile_' . self::dateNow() . ".jpg";
+            $name = $random . 'profile_' . Carbon::now() . ".jpg";
             $image->move(public_path() . '/upload/image/', $name);
             $name = url("upload/image/$name");
             return $name;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employ;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -41,10 +42,10 @@ class ProfileApiController extends Controller
                 $userModel = Employ::whereUserId($user->id)->first();
                 $userModel->cv = $cvFile;
                 $userModel->save();
-                return response()->json(['error' => false, 'message' => 'file add successful', 'eq'=> $cvFile]);
+                return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
 
             } else {
-                return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq'=> $cvFile]);
+                return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
             }
         }
         return response()->json(['error' => true, 'message' => 'user not found']);
@@ -76,10 +77,10 @@ class ProfileApiController extends Controller
         $random = Str::random(10);
         if ($request->hasfile('cv')) {
             $image = $request->file('cv');
-            $name = $random . 'cv_' . self::dateNow() . ".pdf";
-            $image->move(public_path() . '/cv/', $name);
-            $name = url("cv/$name");
-            return $name;
+            $name = $random . 'cv_' . Carbon::now()->format('y-m-d') . ".pdf";
+            $image->move(base_path() . '/public/cv/', $name);
+            return $name = url("cv/$name");
+//             $name;
         }
         return $request;
     }
@@ -89,8 +90,8 @@ class ProfileApiController extends Controller
         $random = Str::random(10);
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $random . 'cv_' . self::dateNow() . ".jpg";
-            $image->move(public_path() . '/upload/image/', $name);
+            $name = $random . 'cv_' . Carbon::now()->format('y-m-d') . ".jpg";
+            $image->move(base_path() . '/public/upload/image/', $name);
             $name = url("upload/image/$name");
             return $name;
         }
