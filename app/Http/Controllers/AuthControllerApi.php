@@ -27,7 +27,7 @@ class AuthControllerApi extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|max:10|min:10',
+            'phone' => 'required|max:10|min:9',
             'password' => 'required|max:30|min:6',
             'role' => 'required'
         ]);
@@ -108,7 +108,7 @@ class AuthControllerApi extends Controller
         $status = env('STATUS_NEW');
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'phone' => 'required|unique:users|max:10|min:10',
+            'phone' => 'required|unique:users|max:10|min:9',
             'password' => 'required|max:30|min:6'
         ]);
         if ($validator->fails()) {
