@@ -14,3 +14,7 @@
 $router->get('/', function () use ($router) {
     return 'DetaTech ( 1.1.3) api V 2';
 });
+
+$router->get('profile/{id}', 'ProfileApiController@index');
+//$router->post('update_profile/{id}', 'ProfileApiController');
+$router->post('update_profile/{id}', 'ProfileApiController@uploadCvFileWeb');

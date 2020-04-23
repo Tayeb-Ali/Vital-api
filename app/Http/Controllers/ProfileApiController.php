@@ -8,9 +8,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\DocBlock\Tags\Uses;
 
 class ProfileApiController extends Controller
 {
+    public function index($id)
+    {
+//        $user = User::find($id);
+        return view('profile', compact('id'));
+    }
 
     public function checkUser()
     {
@@ -47,6 +53,22 @@ class ProfileApiController extends Controller
             } else {
                 return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
             }
+        }
+        return response()->json(['error' => true, 'message' => 'user not found']);
+
+    }
+
+    public function uploadCvFileWeb(Request $request, $id)
+    {
+        $cvFile = $this->saveFile($request);
+        if ($cvFile) {
+            $userModel = Employ::whereUserId($id)->first();
+            $userModel->cv = $cvFile;
+            $userModel->save();
+            return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
+
+        } else {
+            return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
         }
         return response()->json(['error' => true, 'message' => 'user not found']);
 
