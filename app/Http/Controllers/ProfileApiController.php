@@ -50,6 +50,8 @@ class ProfileApiController extends Controller
                 $userModel = Employ::whereUserId($user->id)->first();
                 $userModel->cv = $cvFile;
                 $userModel->save();
+                Uses::find($user->id)->update(['status'=> env('STATUS_CV')]);
+
                 return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
 
             } else {
