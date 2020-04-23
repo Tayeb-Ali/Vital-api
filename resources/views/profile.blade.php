@@ -12,7 +12,7 @@
 
 <div class="container">
     <h2>Cv</h2>
-    <form action="update_profile/{{$id}}" method="post" enctype="">
+    <form action="/update_profile/{{$id}}" method="post" enctype="">
 
         <div class="form-group">
             <label for="cv">Cv file:</label>
