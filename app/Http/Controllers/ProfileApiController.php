@@ -7,10 +7,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use phpDocumentor\Reflection\DocBlock\Tags\Uses;
 
 class ProfileApiController extends Controller
 {
@@ -50,7 +48,7 @@ class ProfileApiController extends Controller
                 $userModel = Employ::whereUserId($user->id)->first();
                 $userModel->cv = $cvFile;
                 $userModel->save();
-                Uses::find($user->id)->update(['status'=> env('STATUS_CV')]);
+                User::find($user->id)->update(['status'=> env('STATUS_CV')]);
 
                 return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
 
@@ -74,7 +72,7 @@ class ProfileApiController extends Controller
             $userModel = Employ::whereUserId($id)->first();
             $userModel->cv = $cvFile;
             $userModel->save();
-            Uses::find($id)->update(['status'=> env('STATUS_CV')]);
+            User::find($id)->update(['status'=> env('STATUS_CV')]);
 
             $message = 'file add successful';
             return view('messages', compact('message'));
