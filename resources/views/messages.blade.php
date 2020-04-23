@@ -15,6 +15,7 @@
     <div class="card">
         <div class="card-primary">
             <h2> {!! $message !!} </h2>
+            <p>Go back and close this page</p>
         </div>
     </div>
 
