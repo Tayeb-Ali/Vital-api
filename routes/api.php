@@ -18,7 +18,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('register', 'AuthControllerApi@register');
 
         $router->post('logout', 'AuthControllerApi@logout');
-        $router->post('fcm_update', 'ProfileApiController@updateFCM');
+        $router->put('fcm_update', 'ProfileApiController@updateFCM');
         $router->get('check_user', 'ProfileApiController@checkUser');
     });
 
