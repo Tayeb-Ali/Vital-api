@@ -42,21 +42,21 @@ class ProfileApiController extends Controller
     public function uploadCvFile(Request $request)
     {
         $cvFile = $this->saveFile($request);
-        $user = Auth::user();
-        if ($user) {
-            if ($cvFile) {
-                $userModel = Employ::whereUserId($user->id)->first();
-                $userModel->cv = $cvFile;
-                $userModel->save();
-                User::find($user->id)->update(['status'=> env('STATUS_CV')]);
+//        $user = Auth::user();
+//        if ($user) {
+        if ($cvFile) {
+//            $userModel = Employ::whereUserId($user->id)->first();
+//            $userModel->cv = $cvFile;
+//            $userModel->save();
+//            User::find($user->id)->update(['status' => env('STATUS_CV')]);
 
-                return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
+            return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
 
-            } else {
-                return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
-            }
+        } else {
+            return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
         }
-        return response()->json(['error' => true, 'message' => 'user not found']);
+//        }
+//        return response()->json(['error' => true, 'message' => 'user not found']);
 
     }
 
@@ -72,7 +72,7 @@ class ProfileApiController extends Controller
             $userModel = Employ::whereUserId($id)->first();
             $userModel->cv = $cvFile;
             $userModel->save();
-            User::find($id)->update(['status'=> env('STATUS_CV')]);
+            User::find($id)->update(['status' => env('STATUS_CV')]);
 
             $message = 'file add successful';
             return view('messages', compact('message'));
@@ -85,20 +85,25 @@ class ProfileApiController extends Controller
 
     public function uploadImage(Request $request)
     {
-        $cvFile = $this->saveFile($request);
-        $user = Auth::user();
-        if ($user) {
-            if ($cvFile) {
-                $userModel = User::find($user->id)->first();
-                $userModel->cv = $cvFile;
-                $userModel->save();
-                return response()->json(['error' => false, 'message' => 'file add successful']);
-
-            } else {
-                return response()->json(['error' => true, 'message' => 'no file uploaded']);
-            }
+        try {
+            $picFile = $this->saveImage($request);
+//        $user = Auth::user();
+//        if ($user) {
+//            if ($picFile) {
+            $userModel = User::find(1)->first();
+//                $userModel = User::find($user->id)->first();
+            $userModel->image = $picFile;
+            $userModel->save();
+            return response()->json(['error' => false, 'message' => 'file add successful', 'image' => $picFile]);
+        } catch (\Exception $exception) {
+            return $exception;
         }
-        return response()->json(['error' => true, 'message' => 'user not found']);
+//            }
+//            } else {
+//                return response()->json(['error' => true, 'message' => 'no file uploaded', $picFile]);
+//            }
+//        }
+//        return response()->json(['error' => true, 'message' => 'user not found']);
 
     }
 
@@ -111,21 +116,24 @@ class ProfileApiController extends Controller
             $name = $random . 'cv_' . Carbon::now()->format('y-m-d') . ".pdf";
             $image->move(base_path() . '/public/cv/', $name);
             return $name = url("cv/$name");
-//             $name;
         }
         return $request;
     }
 
     public function saveImage($request)
     {
-        $random = Str::random(10);
-        if ($request->hasfile('image')) {
+        try {
+            $random = Str::random(5);
+//        if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $random . 'cv_' . Carbon::now()->format('y-m-d') . ".jpg";
-            $image->move(base_path() . '/public/upload/image/', $name);
-            $name = url("upload/image/$name");
+            $name = $random . Carbon::now()->format('y-m-d') . ".jpg";
+            $image->move(base_path() . '/public/profiles/', $name);
+            $name = url("profiles/$name");
             return $name;
+//        }
+//        return false;
+        } catch (\Exception $exception) {
+            return $exception;
         }
-        return false;
     }
 }

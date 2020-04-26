@@ -24,7 +24,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('upload_image', 'ProfileApiController@uploadImage');
     $router->post('upload_cv', 'ProfileApiController@uploadCvFile');
-
+//    $router->post('/api/update_image', 'ProfileApiController@uploadImage');
     $router->get('medical_fields', 'MedicalFieldAPIController@index');
     $router->get('medical_fields/{id}', 'MedicalFieldAPIController@show');
 
