@@ -95,8 +95,10 @@ class ProfileApiController extends Controller
             if ($picFile) {
                 $userModel = User::find($userId)->first();
                 $userModel->image = $picFile;
+                $userModel->phone = $request->phone;
+                $userModel->email = $request->email;   
                 $userModel->save();
-                return response()->json(['error' => false, 'message' => 'file add successful', 'image' => $picFile]);
+                return response()->json(['error' => false, 'message' => 'file add successful', 'user' => $userModel]);
             }
         } else {
             return response()->json(['error' => true, 'message' => 'no file uploaded', $picFile]);
