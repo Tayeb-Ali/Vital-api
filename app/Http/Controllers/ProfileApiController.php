@@ -45,16 +45,16 @@ class ProfileApiController extends Controller
      */
     public function uploadCvFile(Request $request)
     {
-        $cvFile = $this->saveFile($request);
         $userId = $request->userId;
         if ($userId) {
+            $cvFile = $this->saveFile($request);
             if ($cvFile) {
                 $userModel = Employ::whereUserId($userId)->first();
                 $userModel->cv = $cvFile;
                 $userModel->save();
                 User::find($userId)->update(['status' => env('STATUS_CV')]);
 
-                return response()->json(['error' => false, 'message' => 'file add successful', 'eq' => $cvFile]);
+                return response()->json(['error' => false, 'message' => 'file add successful']);
 
             } else {
                 return response()->json(['error' => true, 'message' => 'no file uploaded', 'eq' => $cvFile]);
@@ -64,34 +64,11 @@ class ProfileApiController extends Controller
 
     }
 
-    /**
-     * @param Request $request
-     * @param $id
-     * @return View
-     */
-    public function uploadCvFileWeb(Request $request, $id)
-    {
-        $cvFile = $this->saveFile($request);
-        if ($cvFile) {
-            $userModel = Employ::whereUserId($id)->first();
-            $userModel->cv = $cvFile;
-            $userModel->save();
-            User::find($id)->update(['status' => env('STATUS_CV')]);
-
-            $message = 'file add successful';
-            return view('messages', compact('message'));
-        }
-        $message = 'no file uploaded';
-        return view('messages', compact('message'));
-
-
-    }
-
     public function uploadImage(Request $request)
     {
-        $picFile = $this->saveImage($request);
         $userId = $request->userId;
         if ($userId) {
+            $picFile = $this->saveImage($request);
             if ($picFile) {
                 $userModel = User::find($userId)->first();
                 $userModel->image = $picFile;
