@@ -45,7 +45,8 @@ class ProfileApiController extends Controller
      */
     public function uploadCvFile(Request $request)
     {
-        $userId = $request->userId;
+
+        return $userId = $request->userId;
         if ($userId) {
             $cvFile = $this->saveFile($request);
             if ($cvFile) {
