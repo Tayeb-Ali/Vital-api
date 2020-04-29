@@ -87,7 +87,7 @@ class ProfileApiController extends Controller
 
     public function saveFile($request)
     {
-        $random = Str::random(10);
+        $random = Str::random(5);
         if ($request->hasfile('cv')) {
             $image = $request->file('cv');
             $name = $random . 'cv_' . Carbon::now()->format('y-m-d') . ".pdf";
