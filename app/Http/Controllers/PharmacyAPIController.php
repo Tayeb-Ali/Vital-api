@@ -10,6 +10,7 @@ use App\Http\Controllers\AppBaseController;
 use App\User;
 use Illuminate\Http\Request;
 use Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PharmacyController
@@ -104,10 +105,12 @@ class PharmacyAPIController extends AppBaseController
         $user = Auth::user();
         if ($user) {
             $input = $request->all();
-            $wallet = Wallet::whereUserId($user->id)->first();
-            $wallet->balance = ($wallet->balance - env('AMBULANCE_POINT'));
-            $wallet->save();
             $pharmacy = $this->pharmacyRepository->createApi($input);
+            if ($pharmacy){
+                $wallet = Wallet::whereUserId($user->id)->first();
+                $wallet->balance = $wallet->balance - env('AMBULANCE_POINT');
+                $wallet->save();
+            }
 
             return $this->sendResponse($pharmacy->toArray(), 'Pharmacy saved successfully');
         }

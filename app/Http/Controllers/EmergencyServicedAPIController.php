@@ -6,6 +6,7 @@ use App\Models\EmergencyServiced;
 use App\Repositories\EmergencyServicedRepository;
 use Illuminate\Http\Request;
 use Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EmergencyServicedController
