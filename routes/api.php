@@ -63,7 +63,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('request_specialists_admin_history', 'RequestSpecialistsAPIController@adminHistory');
     $router->get('request_specialists_doctor_history', 'RequestSpecialistsAPIController@doctorHistory');
     $router->get('request_specialists_history', 'RequestSpecialistsAPIController@history');
-    $router->get('search_request_specialists/{search}', 'RequestSpecialistsAPIController@search');
+    $router->post('search_request_specialists', 'RequestSpecialistsAPIController@search');
 //
     $router->get('acceptRequestByAdmin/{id}', 'AcceptRequestSpecialistsAPIController@acceptRequestByAdmin');
     $router->get('acceptRequestByUser/{id}', 'AcceptRequestSpecialistsAPIController@acceptRequestByUser');

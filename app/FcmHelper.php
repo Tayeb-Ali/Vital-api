@@ -2,30 +2,49 @@
 
 namespace App;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\FcmHelper
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FcmHelper newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FcmHelper newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\FcmHelper query()
- * @mixin \Eloquent
+ * @method static Builder|FcmHelper newModelQuery()
+ * @method static Builder|FcmHelper newQuery()
+ * @method static Builder|FcmHelper query()
+ * @mixin Eloquent
  */
 class FcmHelper extends Model
 {
     /**
      * Sending Message From FCM For Android
-     * @param $data
+     * @param $fcm_registration_id
+     * @param $title
+     * @param $message
+     * @param null $requestId
      * @return bool|string
      */
-    function send_android_fcm($fcm_registration_id, $title, $message)
+    function send_android_fcm($fcm_registration_id, $title, $message, $requestId = null)
     {
         $registatoin_ids = [$fcm_registration_id];
-        $message = ['title' => $title, 'body' => $message];
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $requestId,
+                ),
+            'registration_ids' => $registatoin_ids,
+
+        );
         //Google cloud messaging GCM-API url
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $fields = ['registration_ids' => $registatoin_ids, 'data' => ['message' => $message]];
+//       return $fields;
 
         // Update your Google Cloud Messaging API Key
         define("GOOGLE_API_KEY", env('FCM_SERVER_KEY'));
@@ -49,12 +68,78 @@ class FcmHelper extends Model
         return $result;
     }
 
-    function send_android_fcm_all($registatoin_ids, $title, $message)
+    function send_android_fcm_all($registatoin_ids, $title, $message, $requestId = null)
     {
-        $message = ['title' => $title, 'body' => $message];
+
+        $registatoin_ids = [$registatoin_ids];
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $requestId,
+                ),
+            'registration_ids' => $registatoin_ids,
+
+        );
+
+        // Update your Google Cloud Messaging API Key
+        define("GOOGLE_API_KEY", env('FCM_SERVER_KEY'));
+
         //Google cloud messaging GCM-API url
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $fields = ['registration_ids' => $registatoin_ids, 'data' => ['message' => $message]];
+
+        $headers = [
+            'Authorization: key=' . GOOGLE_API_KEY,
+            'Content-Type: application/json'];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        curl_close($ch);
+        return $result;
+    }
+
+    /**
+     * @param $topic
+     * @param $title
+     * @param $message
+     * @param null $requestId
+     * @return array|bool|string
+     */
+    function send_android_fcm_topic($topic, $title, $message, $requestId = null)
+    {
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $requestId,
+                ),
+            'to' => "/topics/$topic",
+
+        );
+        //Google cloud messaging GCM-API url
+        $url = 'https://fcm.googleapis.com/fcm/send';
+//        return $fields;
 
         // Update your Google Cloud Messaging API Key
         define("GOOGLE_API_KEY", env('FCM_SERVER_KEY'));
@@ -77,5 +162,6 @@ class FcmHelper extends Model
         curl_close($ch);
         return $result;
     }
+
 }
 

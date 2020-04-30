@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class RequestSpecialistsController
@@ -57,7 +58,7 @@ class RequestSpecialistsAPIController extends AppBaseController
                 $wallet->save();
             }
             $requestSpecialistsModle = new  RequestSpecialists();
-            $requestSpecialistsModle->users_notfication($request->medical_id);
+            $requestSpecialistsModle->users_notfication($request->medical_id, $requestSpecialists->id);
             return $this->sendResponse($requestSpecialists->toArray(), 'Request Specialists saved successfully');
         }
     }
@@ -144,16 +145,17 @@ class RequestSpecialistsAPIController extends AppBaseController
     }
 
     /**
-     * @param $search
-     * @return Builder[]|Collection
+     * @param Request $request
+     * @return \Illuminate\Support\Collection
      */
-    public function search($search)
+    public function search(Request $request)
     {
-        return RequestSpecialists::where('name', 'LIKE', '%' . $search . '%')
-            ->orWhere('address', 'LIKE', '%' . $search . '%')
-            ->orWhereHas('specialties', function ($query) use ($search) {
-                return $query->where('name', 'LIKE', "%$search%");
-            })->where('status', '=', 1)
+        $search = $request->title;
+        return DB::table('request_specialists')
+            ->where('status', env("STATUS_NEW"))
+            ->where("name", 'like', '%' . $search . '%')
+            ->orWhere("address", 'like', '%' . $search . '%')
             ->get();
     }
+
 }

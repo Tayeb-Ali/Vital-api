@@ -178,7 +178,7 @@ class RequestSpecialists extends Model
      * @param $medical_id
      * @return bool|string
      */
-    public function users_notfication($medical_id)
+    public function users_notfication($medical_id, $requestId)
     {
         $medical = MedicalSpecialty::where('id', $medical_id)->first('name');
         $message = 'New Request';
@@ -189,7 +189,7 @@ class RequestSpecialists extends Model
             $fcm_registration_id[] = $device->fcm_registration_id;
         }
         $result = new FcmHelper();
-        return $result->send_android_fcm_all($fcm_registration_id, $title, $message);
+        return $result->send_android_fcm_all($fcm_registration_id, $title, $message, $requestId);
     }
 
 }

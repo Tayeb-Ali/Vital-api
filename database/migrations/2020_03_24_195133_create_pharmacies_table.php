@@ -16,7 +16,7 @@ class CreatePharmaciesTable extends Migration
         Schema::create('pharmacies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->integer('dose');
             $table->boolean('company')->default(true);
             $table->string('type');
