@@ -26,7 +26,7 @@ class FcmHelper extends Model
      */
     function send_android_fcm($fcm_registration_id, $title, $message, $requestId = null)
     {
-        $registatoin_ids = [$fcm_registration_id];
+//        $registatoin_ids = [$fcm_registration_id];
         $fields = array(
             'notification' =>
                 array(
@@ -39,7 +39,7 @@ class FcmHelper extends Model
                 array(
                     'requestId' => $requestId,
                 ),
-            'registration_ids' => $registatoin_ids,
+            'registration_ids' => $fcm_registration_id,
 
         );
         //Google cloud messaging GCM-API url
@@ -70,8 +70,6 @@ class FcmHelper extends Model
 
     function send_android_fcm_all($registatoin_ids, $title, $message, $requestId = null)
     {
-
-        $registatoin_ids = [$registatoin_ids];
         $fields = array(
             'notification' =>
                 array(

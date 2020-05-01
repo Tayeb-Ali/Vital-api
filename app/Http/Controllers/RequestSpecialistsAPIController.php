@@ -153,7 +153,7 @@ class RequestSpecialistsAPIController extends AppBaseController
         $search = $request->title;
 //        return DB::table('request_specialists')
         return RequestSpecialists::
-            where('status', env("STATUS_NEW"))
+        where('status', env("STATUS_NEW"))
             ->where("name", 'like', '%' . $search . '%')
             ->orWhere("address", 'like', '%' . $search . '%')
             ->with(['specialties.medical', 'user', 'acceptRequest.doctor.employ'])
