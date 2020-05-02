@@ -7,11 +7,8 @@ use App\Models\Wallet;
 use App\Repositories\RequestSpecialistsRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class RequestSpecialistsController
@@ -35,7 +32,7 @@ class RequestSpecialistsAPIController extends AppBaseController
     public function index()
     {
         return $this->requestSpecialistsRepository
-            ->WhereWithPaginate('status', 1, 2, ['specialties.medical', 'user', 'acceptRequest.doctor.employ']);
+            ->WhereWithPaginate('status', 1, 20, ['specialties.medical', 'user', 'acceptRequest.doctor.employ']);
     }
 
     /**
@@ -151,9 +148,7 @@ class RequestSpecialistsAPIController extends AppBaseController
     public function search(Request $request)
     {
         $search = $request->title;
-//        return DB::table('request_specialists')
-        return RequestSpecialists::
-        where('status', env("STATUS_NEW"))
+        return RequestSpecialists::where('status', env("STATUS_NEW"))
             ->where("name", 'like', '%' . $search . '%')
             ->orWhere("address", 'like', '%' . $search . '%')
             ->with(['specialties.medical', 'user', 'acceptRequest.doctor.employ'])

@@ -100,25 +100,7 @@ class RequestSpecialists extends Model
         'number_of_hour' => 'integer'
     ];
 
-    /**
-     * @param $value
-     * @return string
-     * @throws \Exception
-     * //     */
-//    public function setStartTimeAttribute($value)
-//    {
-//        return $this->attributes['start_time'] = (new Carbon($value))->format('Y-m-d');
-//    }
 
-    /**
-     * @param $value
-     * @return string
-     * @throws \Exception
-     */
-//    public function setEndTimeAttribute($value)
-//    {
-//        return $this->attributes['end_time'] = (new Carbon($value))->format('Y-m-d');
-//    }
 
     /**
      * @param $medical_id

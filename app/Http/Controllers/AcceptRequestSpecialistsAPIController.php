@@ -127,7 +127,6 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function acceptRequestByUser($requestId)
     {
-//        return $request->header();
         $doctor_id = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->acceptRequestByUser($requestId, $doctor_id);
@@ -167,7 +166,8 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      * POST /cancelRequestByUser/{id}
      *
      * @param int $requestId
-     * @return Response
+     * @return array
+     * @throws \Exception
      */
     public function cancelRequestByUser($requestId)
     {

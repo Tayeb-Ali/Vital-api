@@ -128,21 +128,21 @@ class AcceptRequestSpecialists extends Model
     public function acceptRequestByUser($requestId, $doctor_id)
     {
         $requestSpecialistData = RequestSpecialists::where('id', $requestId)
-            ->where('status', 1)
+            ->where('status', env("STATUS_NEW"))
             ->with('user')->first();
 
         if (!empty($requestSpecialistData)) {
             $acceptRequest = new AcceptRequestSpecialists();
             $acceptRequest->doctor_id = $doctor_id;
             $acceptRequest->request_id = $requestId;
-            $acceptRequest = $acceptRequest->save();
-            $requestSpecialistData->status = 2;
+            $acceptRequest->save();
+            $requestSpecialistData->status = env("STATUS_MEDICAL");
             $requestSpecialistData->doctor_id = $doctor_id;
             $requestSpecialistData->save();
-            $this->fcm_send($requestSpecialistData->user
-                ->fcm_registration_id,
-                "new message 1",
-                "Your Request has accept By a Doctor: " . $requestSpecialistData->user->name);
+            $this->fcm_send([$requestSpecialistData->user
+                ->fcm_registration_id],
+                "new message",
+                "Your Request has accept By a Doctor: " . $requestSpecialistData->user->name, $requestId);
             return ['accept' => true, 'request' => true, 'acceptRequest' => $requestSpecialistData];
         } else {
             return ['accept' => false, 'request' => false];
@@ -158,17 +158,17 @@ class AcceptRequestSpecialists extends Model
     {
 
         $resultData = RequestSpecialists::whereId($requestId)
-            ->whereStatus(2)
+            ->whereStatus(env("STATUS_MEDICAL"))
             ->with('user')
             ->first();
         $result = RequestSpecialists::whereId($requestId)
             ->where('user_id', $userId)
-            ->whereStatus(2)
-            ->update(['status' => 3]);
+            ->whereStatus(env("STATUS_MEDICAL"))
+            ->update(['status' => env("STATUS_ACCEPT_ADMIN")]);
         if ($result == 1) {
             $wallet = Wallet::where('user_id', $resultData->user->id)->first();
             $wallet->balance = $wallet->balance - env('REQUEST_POINT');
-            $this->fcm_send($resultData->user->fcm_registration_id, "new message 2", "The admin:" . $resultData->user->name . " approved your request. ");
+            $this->fcm_send([$resultData->user->fcm_registration_id], "new message", "The admin:" . $resultData->user->name . " approved your request. ");
             return ['accept' => true, 'request' => true];
         } else {
             return ['accept' => false, 'request' => false, 'message' => $result];
@@ -189,9 +189,9 @@ class AcceptRequestSpecialists extends Model
             ->with('user')->first();
         $acceptRequest = $acceptRequest->delete();
         if ($acceptRequest) {
-            $requestSpecialist = RequestSpecialists::whereId($requestId)->update(['status' => 4]);
+            RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
 
-            $this->fcm_send($acceptRequest->user->fcm_registration_id, "You have received new message ", 'your last Request is Cancel by admin');
+            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin');
 //
             return ['accept' => true, 'request' => true];
 
@@ -212,7 +212,7 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId);
         $acceptRequest = $acceptRequest->delete();
         if ($acceptRequest) {
-            RequestSpecialists::whereId($requestId)->whereStatus(2)->update(['status' => 1]);
+            RequestSpecialists::whereId($requestId)->whereStatus(env("STATUS_MEDICAL"))->update(['status' => env("STATUS_NEW")]);
             return ['accept' => true, 'request' => true];
 
         } else {
@@ -230,7 +230,7 @@ class AcceptRequestSpecialists extends Model
                 'rating' => $request->rating
             ]);
         if ($acceptRequest) {
-            $requestSpecialist = RequestSpecialists::whereId($requestId)->whereStatus(3)->update(['status' => 6]);
+            $requestSpecialist = RequestSpecialists::whereId($requestId)->whereStatus(env("STATUS_ACCEPT_ADMIN"))->update(['status' => 6]);
             return ['accept' => true, 'request' => true, 'data' => $requestSpecialist];
 
         } else {
@@ -253,10 +253,10 @@ class AcceptRequestSpecialists extends Model
         return $result->send_android_fcm_all($fcm_registration_id, $title, $message);
     }
 
-    private function fcm_send($fcm_registration_id, $title, $message)
+    private function fcm_send($fcm_registration_id, $title, $message, $rquestId)
     {
         $result = new FcmHelper();
-        return $result->send_android_fcm($fcm_registration_id, $title, $message);
+        return $result->send_android_fcm($fcm_registration_id, $title, $message, $rquestId);
     }
 
 }
