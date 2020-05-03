@@ -96,4 +96,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->get('pharmacy_by_user', 'PharmacyAPIController@showByUser');
     $router->get('pharmacy_by_pharmacy', 'PharmacyAPIController@showByPharmacy');
+
+    //
+
+    $router->get('emergency_request', 'AmbulanceAPIController@index');
+    $router->get('emergency_request/{id}', 'AmbulanceAPIController@show');
+    $router->delete('emergency_request/{id}', 'AmbulanceAPIController@destroy');
+    $router->post('emergency_request', 'AmbulanceAPIController@store');
+    $router->put('emergency_request/{id}', 'AmbulanceAPIController@update');
 });

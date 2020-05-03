@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EmergencyServiced;
-use App\Repositories\EmergencyServicedRepository;
+use App\Models\EmergencyRequest;
+use App\Repositories\EmergencyRequestRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+//use Illuminate\Support\Facades\Auth;
 
 /**
- * Class EmergencyServicedController
+ * Class EmergencyRequestAPIController
  * @package App\Http\Controllers\API
  */
-class EmergencyServicedAPIController extends AppBaseController
+class EmergencyRequestAPIController extends AppBaseController
 {
-    /** @var  EmergencyServicedRepository */
-    private $emergencyServicedRepository;
+    /** @var  EmergencyRequestRepository */
+    private $EmergencyRequestRepository;
 
-    public function __construct(EmergencyServicedRepository $emergencyServicedRepo)
+    public function __construct(EmergencyRequestRepository $emergencyRequestRep)
     {
-        $this->emergencyServicedRepository = $emergencyServicedRepo;
+        $this->EmergencyRequestRepository = $emergencyRequestRep;
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @return emergencyRequest
      *
      * @SWG\Get(
-     *      path="/emergencyServiceds",
-     *      summary="Get a listing of the EmergencyServiceds.",
-     *      tags={"EmergencyServiced"},
-     *      description="Get all EmergencyServiceds",
+     *      path="emergency_request",
+     *      summary="Get a listing of the EmergencyRequests.",
+     *      tags={"EmergencyRequest"},
+     *      description="Get all EmergencyRequests",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -43,7 +43,7 @@ class EmergencyServicedAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/EmergencyServiced")
+     *                  @SWG\Items(ref="#/definitions/EmergencyRequest")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -55,8 +55,8 @@ class EmergencyServicedAPIController extends AppBaseController
      */
     public function index()
     {
-        $emergencyServiceds = $this->emergencyServicedRepository->withPaginate(10, 'user');
-        return $this->sendResponse($emergencyServiceds->toArray(), 'Emergency Serviceds retrieved successfully');
+        $emergencyRequest = $this->EmergencyRequestRepository->withPaginate(10, 'user');
+        return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
     }
 
     /**
@@ -64,17 +64,17 @@ class EmergencyServicedAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Post(
-     *      path="/emergencyServiceds",
-     *      summary="Store a newly created EmergencyServiced in storage",
-     *      tags={"EmergencyServiced"},
-     *      description="Store EmergencyServiced",
+     *      path="emergency_request",
+     *      summary="Store a newly created EmergencyRequest in storage",
+     *      tags={"EmergencyRequest"},
+     *      description="Store EmergencyRequest",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="EmergencyServiced that should be stored",
+     *          description="EmergencyRequest that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/EmergencyServiced")
+     *          @SWG\Schema(ref="#/definitions/EmergencyRequest")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -87,7 +87,7 @@ class EmergencyServicedAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/EmergencyServiced"
+     *                  ref="#/definitions/EmergencyRequest"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -101,9 +101,9 @@ class EmergencyServicedAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $emergencyServiced = $this->emergencyServicedRepository->createApi($input);
+        $emergencyRequest = $this->EmergencyRequestRepository->createApi($input);
 
-        return $this->sendResponse($emergencyServiced->toArray(), 'Emergency Serviced saved successfully');
+        return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request saved successfully');
     }
 
     /**
@@ -111,14 +111,14 @@ class EmergencyServicedAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/emergencyServiceds/{id}",
-     *      summary="Display the specified EmergencyServiced",
-     *      tags={"EmergencyServiced"},
-     *      description="Get EmergencyServiced",
+     *      path="emergency_request/{id}",
+     *      summary="Display the specified EmergencyRequest",
+     *      tags={"EmergencyRequest"},
+     *      description="Get EmergencyRequest",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of EmergencyServiced",
+     *          description="id of EmergencyRequest",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -134,7 +134,7 @@ class EmergencyServicedAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/EmergencyServiced"
+     *                  ref="#/definitions/EmergencyRequest"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -146,14 +146,14 @@ class EmergencyServicedAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->findWith($id, ['user']);
+        /** @var EmergencyRequest $emergencyRequest */
+        $emergencyRequest = $this->EmergencyRequestRepository->findWith($id, ['user']);
 
-        if (empty($emergencyServiced)) {
-            return $this->sendError('Emergency Serviced not found');
+        if (empty($emergencyRequest)) {
+            return $this->sendError('Emergency Request not found');
         }
 
-        return $this->sendResponse($emergencyServiced->toArray(), 'Emergency Serviced retrieved successfully');
+        return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
     }
 
     /**
@@ -162,14 +162,14 @@ class EmergencyServicedAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Put(
-     *      path="/emergencyServiceds/{id}",
-     *      summary="Update the specified EmergencyServiced in storage",
-     *      tags={"EmergencyServiced"},
-     *      description="Update EmergencyServiced",
+     *      path="emergency_request/{id}",
+     *      summary="Update the specified EmergencyRequest in storage",
+     *      tags={"EmergencyRequest"},
+     *      description="Update EmergencyRequest",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of EmergencyServiced",
+     *          description="id of EmergencyRequest",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -177,9 +177,9 @@ class EmergencyServicedAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="EmergencyServiced that should be updated",
+     *          description="EmergencyRequest that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/EmergencyServiced")
+     *          @SWG\Schema(ref="#/definitions/EmergencyRequest")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -192,7 +192,7 @@ class EmergencyServicedAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/EmergencyServiced"
+     *                  ref="#/definitions/EmergencyRequest"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -206,31 +206,32 @@ class EmergencyServicedAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->find($id);
+        /** @var EmergencyRequest $emergencyRequest */
+        $emergencyRequest = $this->EmergencyRequestRepository->find($id);
 
-        if (empty($emergencyServiced)) {
-            return $this->sendError('Emergency Serviced not found');
+        if (empty($emergencyRequest)) {
+            return $this->sendError('Emergency Request not found');
         }
 
-        $emergencyServiced = $this->emergencyServicedRepository->update($input, $id);
+        $emergencyRequest = $this->EmergencyRequestRepository->update($input, $id);
 
-        return $this->sendResponse($emergencyServiced->toArray(), 'EmergencyServiced updated successfully');
+        return $this->sendResponse($emergencyRequest->toArray(), 'EmergencyRequest updated successfully');
     }
 
     /**
      * @param int $id
      * @return Response
      *
+     * @throws \Exception
      * @SWG\Delete(
-     *      path="/emergencyServiceds/{id}",
-     *      summary="Remove the specified EmergencyServiced from storage",
-     *      tags={"EmergencyServiced"},
-     *      description="Delete EmergencyServiced",
+     *      path="emergency_request/{id}",
+     *      summary="Remove the specified EmergencyRequest from storage",
+     *      tags={"EmergencyRequest"},
+     *      description="Delete EmergencyRequest",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of EmergencyServiced",
+     *          description="id of EmergencyRequest",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -258,28 +259,28 @@ class EmergencyServicedAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->find($id);
+        /** @var EmergencyRequest $emergencyRequest */
+        $emergencyRequest = $this->EmergencyRequestRepository->find($id);
 
-        if (empty($emergencyServiced)) {
-            return $this->sendError('Emergency Serviced not found');
+        if (empty($emergencyRequest)) {
+            return $this->sendError('Emergency Request not found');
         }
 
-        $emergencyServiced->delete();
+        $emergencyRequest->delete();
 
-        return $this->sendSuccess('Emergency Serviced deleted successfully');
+        return $this->sendSuccess('Emergency Request deleted successfully');
     }
 
     public function adminHistory()
     {
-        /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->withPaginate(10, 'user');
+        /** @var EmergencyRequest $emergencyRequest */
+        $emergencyRequest = $this->EmergencyRequestRepository->withPaginate(10, 'user');
 
-        if (empty($emergencyServiced)) {
-            return $this->sendError('Emergency Serviced not found');
+        if (empty($emergencyRequest)) {
+            return $this->sendError('Emergency Request not found');
         }
 
-        return $this->sendResponse($emergencyServiced->toArray(), 'Emergency Serviced retrieved successfully');
+        return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
     }
 
     /**
@@ -287,14 +288,13 @@ class EmergencyServicedAPIController extends AppBaseController
      */
     public function userHistory()
     {
-        /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->withPaginate(10, 'user');
+        /** @var EmergencyRequest $emergencyRequest */
+        $emergencyRequest = $this->EmergencyRequestRepository->withPaginate(10, 'user');
 
-        if (empty($emergencyServiced)) {
-            return $this->sendError('Emergency Serviced not found');
+        if (empty($emergencyRequest)) {
+            return $this->sendError('Emergency Request not found');
         }
 
-        return $this->sendResponse($emergencyServiced->toArray(), 'Emergency Serviced retrieved successfully');
+        return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
     }
-
 }
