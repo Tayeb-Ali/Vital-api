@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\EmergencyServiced;
 use App\Repositories\EmergencyServicedRepository;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 /**
  * Class EmergencyServicedController
@@ -56,7 +59,7 @@ class EmergencyServicedAPIController extends AppBaseController
     public function index()
     {
         $emergencyServiceds = $this->emergencyServicedRepository->withPaginate(10, 'user');
-        return $this->sendResponse($emergencyServiceds->toArray(), 'Emergency Serviceds retrieved successfully');
+        return $this->sendResponse($emergencyServiceds->toArray(), 'Emergency Serviced retrieved successfully');
     }
 
     /**
@@ -222,6 +225,7 @@ class EmergencyServicedAPIController extends AppBaseController
      * @param int $id
      * @return Response
      *
+     * @throws Exception
      * @SWG\Delete(
      *      path="/emergencyServiceds/{id}",
      *      summary="Remove the specified EmergencyServiced from storage",
@@ -284,7 +288,7 @@ class EmergencyServicedAPIController extends AppBaseController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function userRequestHistory()
     {

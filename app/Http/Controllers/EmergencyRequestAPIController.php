@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmergencyRequest;
+use App\Models\EmergencyServiced;
 use App\Repositories\EmergencyRequestRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -108,7 +109,9 @@ class EmergencyRequestAPIController extends AppBaseController
         $input = $request->all();
 
         $emergencyRequest = $this->EmergencyRequestRepository->createApi($input);
-
+        $emergencyServes = EmergencyServiced::find($request->emergency_id)->first();
+        $emergencyServes->doctor = $request->doctor_id;
+        $emergencyServes->save();
         return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request saved successfully');
     }
 
@@ -279,8 +282,10 @@ class EmergencyRequestAPIController extends AppBaseController
 
     public function adminHistory()
     {
+        $userId = Auth::user()->id;
+
         /** @var EmergencyRequest $emergencyRequest */
-        $emergencyRequest = $this->EmergencyRequestRepository->withPaginate(10, 'user');
+        $emergencyRequest = $this->EmergencyRequestRepository->WhereWithPaginate('user_id', $userId, 10, 'user');
 
         if (empty($emergencyRequest)) {
             return $this->sendError('Emergency Request not found');
@@ -294,8 +299,9 @@ class EmergencyRequestAPIController extends AppBaseController
      */
     public function userHistory()
     {
+        $userId = Auth::user()->id;
         /** @var EmergencyRequest $emergencyRequest */
-        $emergencyRequest = $this->EmergencyRequestRepository->withPaginate(10, 'user');
+        $emergencyRequest = $this->EmergencyRequestRepository->WhereWithPaginate('doctor_id', $userId, 10, 'user');
 
         if (empty($emergencyRequest)) {
             return $this->sendError('Emergency Request not found');

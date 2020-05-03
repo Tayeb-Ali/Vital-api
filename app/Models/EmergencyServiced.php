@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -105,13 +107,27 @@ class EmergencyServiced extends Model
     ];
 
 
+    /**
+     * @return BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function emergency()
+    {
+        return $this->hasMany(EmergencyServiced::class, 'emergency_id');
     }
 }
