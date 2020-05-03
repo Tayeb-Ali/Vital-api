@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *      ),
  *      @SWG\Property(
  *          property="reports",
- *          description="report",
+ *          description="reports",
  *          type="string"
  *      ), @SWG\Property(
  *          property="reports_file",

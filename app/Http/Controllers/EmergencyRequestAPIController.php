@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\EmergencyRequest;
 use App\Repositories\EmergencyRequestRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 //use Illuminate\Support\Facades\Auth;
 
@@ -296,5 +298,18 @@ class EmergencyRequestAPIController extends AppBaseController
         }
 
         return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
+    }
+
+    public function saveFile($request)
+    {
+        $random = Str::random(5);
+        if ($request->hasfile('reports_file')) {
+            $image = $request->file('reports_file');
+            $name = $random . 'reports_file_' . $request->reports_file->extension();
+            $image->move(public_path() . '/reports/', $name);
+            $name = url("reports/$name");
+            return $name;
+        }
+        return false;
     }
 }
