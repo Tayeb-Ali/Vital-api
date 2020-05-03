@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\EmergencyRequest;
 use App\Repositories\EmergencyRequestRepository;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 
-//use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EmergencyRequestAPIController
@@ -101,6 +103,8 @@ class EmergencyRequestAPIController extends AppBaseController
      */
     public function store(Request $request)
     {
+        $reports_file = $this->saveFile($request);
+        $request->merge(['reports_file' => $reports_file]);
         $input = $request->all();
 
         $emergencyRequest = $this->EmergencyRequestRepository->createApi($input);
@@ -224,7 +228,7 @@ class EmergencyRequestAPIController extends AppBaseController
      * @param int $id
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      * @SWG\Delete(
      *      path="emergency_request/{id}",
      *      summary="Remove the specified EmergencyRequest from storage",
@@ -286,7 +290,7 @@ class EmergencyRequestAPIController extends AppBaseController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function userHistory()
     {
@@ -300,6 +304,10 @@ class EmergencyRequestAPIController extends AppBaseController
         return $this->sendResponse($emergencyRequest->toArray(), 'Emergency Request retrieved successfully');
     }
 
+    /**
+     * @param $request
+     * @return bool|string
+     */
     public function saveFile($request)
     {
         $random = Str::random(5);

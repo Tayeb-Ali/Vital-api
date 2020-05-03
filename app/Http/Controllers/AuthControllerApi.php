@@ -183,12 +183,11 @@ class AuthControllerApi extends Controller
      * @param $request
      * @return string
      */
-    public function saveImage($request)
+    public function saveImage($request, $userId)
     {
-        $random = Str::random(5);
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $random . Carbon::now()->format('y-m-d') . ".jpg";
+            $name = $userId . '_pic.' . 'png';
             $image->move(base_path() . '/public/profiles/', $name);
             $name = url("profiles/$name");
             return $name;
@@ -196,5 +195,5 @@ class AuthControllerApi extends Controller
         return url("upload/image/profile.jpg");
 
     }
-    
+
 }

@@ -8,7 +8,6 @@ use App\Repositories\EmployRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 
 /**
@@ -136,10 +135,10 @@ class EmployAPIController extends AppBaseController
     public function saveFile($request)
     {
         $userId = Auth::user()->id;
-        $random = Str::random(10);
+//        $random = Str::random(10);
         if ($request->hasfile('cv')) {
             $image = $request->file('cv');
-            $name = $random . 'cv_' . $userId . ".pdf";
+            $name = $userId . '_cv.' . $request->cv->extension();
             $image->move(public_path() . '/cv/', $name);
             $name = url("cv/$name");
 

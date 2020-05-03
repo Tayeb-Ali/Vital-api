@@ -83,7 +83,9 @@ class EmergencyServiced extends Model
         'address',
         'price_per_day',
         'type',
-        'available'];
+        'available',
+        'doctor_id'
+    ];
 
     /**
      * The attributes that should be casted to native types.
@@ -98,12 +100,18 @@ class EmergencyServiced extends Model
         'price_per_day' => 'double',
         'type' => 'string',
         'available' => 'integer',
-        'user_id' => 'integer'
+        'user_id' => 'integer',
+        'doctor_id' => 'integer'
     ];
 
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
     }
 }

@@ -272,8 +272,9 @@ class EmergencyServicedAPIController extends AppBaseController
 
     public function adminHistory()
     {
+        $userId = Auth::user()->id;
         /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->withPaginate(10, 'user');
+        $emergencyServiced = $this->emergencyServicedRepository->WhereWithPaginate('user_id', $userId, 10, 'user');
 
         if (empty($emergencyServiced)) {
             return $this->sendError('Emergency Serviced not found');
@@ -285,10 +286,11 @@ class EmergencyServicedAPIController extends AppBaseController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userHistory()
+    public function userRequestHistory()
     {
+        $userId = Auth::user()->id;
         /** @var EmergencyServiced $emergencyServiced */
-        $emergencyServiced = $this->emergencyServicedRepository->withPaginate(10, 'user');
+        $emergencyServiced = $this->emergencyServicedRepository->WhereWithPaginate('doctor_id', $userId, 10, ['user']);
 
         if (empty($emergencyServiced)) {
             return $this->sendError('Emergency Serviced not found');
