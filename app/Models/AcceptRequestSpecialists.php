@@ -214,8 +214,13 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId);
         $acceptRequest = $acceptRequest->delete();
         if ($acceptRequest) {
-            RequestSpecialists::whereId($requestId)->whereStatus(env("STATUS_MEDICAL"))->update(['status' => env("STATUS_NEW")]);
-            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by user', $acceptRequest);
+            $resultData = RequestSpecialists::whereId($requestId)
+                ->whereStatus(env("STATUS_MEDICAL"))
+                ->update(['status' => env("STATUS_NEW")]);
+            $this->fcm_send([$acceptRequest->user->fcm_registration_id],
+                "You have received new message ",
+                'your last Request is Cancel by user',
+                $resultData);
 
             return ['accept' => true, 'request' => true];
 
