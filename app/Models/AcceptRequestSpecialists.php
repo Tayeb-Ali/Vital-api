@@ -211,23 +211,26 @@ class AcceptRequestSpecialists extends Model
      */
     public function cancelRequestByUser($requestId)
     {
-        $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId);
-        $acceptRequest->delete();
-        if ($acceptRequest) {
-            $resultData = RequestSpecialists::whereId($requestId)
-                ->whereStatus(env("STATUS_MEDICAL"))
-                ->update(['status' => env("STATUS_NEW"),
-                    'doctor_id'=> null]);
-            $this->fcm_send([$acceptRequest->doctor()->fcm_registration_id],
-                "You have received new message ",
-                'your last Request is Cancel by user',
-                $resultData);
+//        $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId)->get();
+//        $acceptRequest->delete();
+//        if ($acceptRequest) {
+         $resultData = RequestSpecialists::with('doctor')->find($requestId);
+        $resultData->status = 88;
+//         $resultData->doctor_id = null;
+        return $resultData->save();
+//                ->whereStatus(env("STATUS_MEDICAL"))->get();
+//                ->update(['status' => env("STATUS_NEW"),
+//                    'doctor_id'=> null]);
+        $this->fcm_send([$resultData->doctor->fcm_registration_id],
+            "You have received new message ",
+            'your last Request is Cancel by user',
+            $resultData);
 
-            return ['accept' => true, 'request' => true];
+        return ['accept' => true, 'request' => true];
 
-        } else {
-            return ['accept' => false, 'request' => false];
-        }
+//        } else {
+//            return ['accept' => false, 'request' => false];
+//        }
 
     }
 

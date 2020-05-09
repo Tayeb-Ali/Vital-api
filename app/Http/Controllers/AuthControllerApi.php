@@ -116,7 +116,7 @@ class AuthControllerApi extends Controller
             return response()->json(["message" => $validator->messages()->first(), "error" => true]);
         }
 
-        $image = self::saveImage($request);
+        $image = self::saveImage($request, Carbon::now()->format('y-m-d'));
         $user = User::create([
             'phone' => $request->phone,
             'name' => $request->name,
