@@ -217,7 +217,7 @@ class AcceptRequestSpecialists extends Model
             $resultData = RequestSpecialists::whereId($requestId)
                 ->whereStatus(env("STATUS_MEDICAL"))
                 ->update(['status' => env("STATUS_NEW")]);
-            $this->fcm_send([$acceptRequest->user->fcm_registration_id],
+            $this->fcm_send([$acceptRequest->doctor->fcm_registration_id],
                 "You have received new message ",
                 'your last Request is Cancel by user',
                 $resultData);
