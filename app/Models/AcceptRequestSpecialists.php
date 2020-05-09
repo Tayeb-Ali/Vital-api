@@ -189,11 +189,11 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest = AcceptRequestSpecialists::where('id', $requestId)
             ->where('user_id', $userId)
             ->with('user')->first();
-        $acceptRequest = $acceptRequest->delete();
+        $acceptRequest->delete();
         if ($acceptRequest) {
-            RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
+            $requestData = RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
 
-            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin', $acceptRequest);
+            $this->fcm_send([$requestData->user()->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin', $acceptRequest);
 //
             return ['accept' => true, 'request' => true];
 
@@ -218,7 +218,7 @@ class AcceptRequestSpecialists extends Model
                 ->whereStatus(env("STATUS_MEDICAL"))
                 ->update(['status' => env("STATUS_NEW"),
                     'doctor_id'=> null]);
-            $this->fcm_send([$acceptRequest->doctor->fcm_registration_id],
+            $this->fcm_send([$acceptRequest->doctor()->fcm_registration_id],
                 "You have received new message ",
                 'your last Request is Cancel by user',
                 $resultData);
