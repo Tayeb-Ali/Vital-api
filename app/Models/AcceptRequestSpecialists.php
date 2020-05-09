@@ -212,11 +212,12 @@ class AcceptRequestSpecialists extends Model
     public function cancelRequestByUser($requestId)
     {
         $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId);
-        $acceptRequest = $acceptRequest->delete();
+        $acceptRequest->delete();
         if ($acceptRequest) {
             $resultData = RequestSpecialists::whereId($requestId)
                 ->whereStatus(env("STATUS_MEDICAL"))
-                ->update(['status' => env("STATUS_NEW")]);
+                ->update(['status' => env("STATUS_NEW"),
+                    'doctor_id'=> null]);
             $this->fcm_send([$acceptRequest->doctor->fcm_registration_id],
                 "You have received new message ",
                 'your last Request is Cancel by user',
