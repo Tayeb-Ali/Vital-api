@@ -142,7 +142,7 @@ class AcceptRequestSpecialists extends Model
             $this->fcm_send([$requestSpecialistData->user
                 ->fcm_registration_id],
                 "new message",
-                "Your Request has accept By a Doctor: " . $requestSpecialistData->user->name, $requestId);
+                "Your Request has accept By a Doctor: " . $requestSpecialistData->doctor->name, $requestSpecialistData);
             return ['accept' => true, 'request' => true, 'acceptRequest' => $requestSpecialistData];
         } else {
             return ['accept' => false, 'request' => false];
@@ -168,7 +168,9 @@ class AcceptRequestSpecialists extends Model
         if ($result == 1) {
             $wallet = Wallet::where('user_id', $resultData->user->id)->first();
             $wallet->balance = $wallet->balance - env('REQUEST_POINT');
-            $this->fcm_send([$resultData->user->fcm_registration_id], "new message", "The admin:" . $resultData->user->name . " approved your request. ");
+            $this->fcm_send([$resultData->user->fcm_registration_id], "new message",
+                "The admin:" . $resultData->user->name . " approved your request. ",
+                $resultData);
             return ['accept' => true, 'request' => true];
         } else {
             return ['accept' => false, 'request' => false, 'message' => $result];
@@ -191,7 +193,7 @@ class AcceptRequestSpecialists extends Model
         if ($acceptRequest) {
             RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
 
-            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin');
+            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin', $acceptRequest);
 //
             return ['accept' => true, 'request' => true];
 
@@ -213,6 +215,8 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest = $acceptRequest->delete();
         if ($acceptRequest) {
             RequestSpecialists::whereId($requestId)->whereStatus(env("STATUS_MEDICAL"))->update(['status' => env("STATUS_NEW")]);
+            $this->fcm_send([$acceptRequest->user->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by user', $acceptRequest);
+
             return ['accept' => true, 'request' => true];
 
         } else {
@@ -253,10 +257,10 @@ class AcceptRequestSpecialists extends Model
         return $result->send_android_fcm_all($fcm_registration_id, $title, $message);
     }
 
-    private function fcm_send($fcm_registration_id, $title, $message, $rquestId)
+    private function fcm_send($fcm_registration_id, $title, $message, $resultData = null)
     {
         $result = new FcmHelper();
-        return $result->send_android_fcm($fcm_registration_id, $title, $message, $rquestId);
+        return $result->send_android_fcm($fcm_registration_id, $title, $message, $resultData);
     }
 
 }

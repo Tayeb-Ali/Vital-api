@@ -21,10 +21,10 @@ class FcmHelper extends Model
      * @param $fcm_registration_id
      * @param $title
      * @param $message
-     * @param null $requestId
+     * @param null $resultData
      * @return bool|string
      */
-    function send_android_fcm($fcm_registration_id, $title, $message, $requestId = null)
+    function send_android_fcm($fcm_registration_id, $title, $message, $resultData = null)
     {
 //        $registatoin_ids = [$fcm_registration_id];
         $fields = array(
@@ -37,7 +37,9 @@ class FcmHelper extends Model
                 ),
             'data' =>
                 array(
-                    'requestId' => $requestId,
+                    'requestId' => $resultData->id,
+                    'latitude' => $resultData->latitude,
+                    'longitude' => $resultData->longitude,
                 ),
             'registration_ids' => $fcm_registration_id,
 
