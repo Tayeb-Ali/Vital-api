@@ -186,15 +186,19 @@ class AcceptRequestSpecialists extends Model
      */
     public function cancelRequestByAdmin($requestId, $userId)
     {
-        $acceptRequest = AcceptRequestSpecialists::where('id', $requestId)
-            ->where('user_id', $userId)
-            ->with('user')->first();
+        $acceptRequest = AcceptRequestSpecialists::with('user')->find($requestId);
         $acceptRequest->delete();
         if ($acceptRequest) {
-            $requestData = RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
+            $requestData = RequestSpecialists::with('doctor')->find($requestId);
+            $requestData->status = env("STATUS_CANCEL_ADMIN");
+//            $requestData = RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
 
-            $this->fcm_send([$requestData->user()->fcm_registration_id], "You have received new message ", 'your last Request is Cancel by admin', $acceptRequest);
-//
+            $this->fcm_send([$requestData->doctor->fcm_registration_id],
+                "You have received new message ",
+                'your last Request is Cancel by admin',
+                $acceptRequest);
+            $requestData->save();
+
             return ['accept' => true, 'request' => true];
 
         } else {
@@ -211,26 +215,24 @@ class AcceptRequestSpecialists extends Model
      */
     public function cancelRequestByUser($requestId)
     {
-//        $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId)->get();
-//        $acceptRequest->delete();
-//        if ($acceptRequest) {
-         $resultData = RequestSpecialists::with('doctor')->find($requestId);
-        $resultData->status = 88;
-//         $resultData->doctor_id = null;
-        return $resultData->save();
-//                ->whereStatus(env("STATUS_MEDICAL"))->get();
-//                ->update(['status' => env("STATUS_NEW"),
-//                    'doctor_id'=> null]);
-        $this->fcm_send([$resultData->doctor->fcm_registration_id],
-            "You have received new message ",
-            'your last Request is Cancel by user',
-            $resultData);
+        $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId);
+        $acceptRequest->delete();
+        if ($acceptRequest) {
+            $resultData = RequestSpecialists::with('doctor')->find($requestId);
+            $resultData->status = env("STATUS_NEW");
+            $resultData->doctor_id = null;
+            $resultData->doctor;
+            $this->fcm_send([$resultData->doctor->fcm_registration_id],
+                "You have received new message ",
+                'your last Request is Cancel by user',
+                $resultData);
+            $resultData->save();
 
-        return ['accept' => true, 'request' => true];
+            return ['accept' => true, 'request' => true];
 
-//        } else {
-//            return ['accept' => false, 'request' => false];
-//        }
+        } else {
+            return ['accept' => false, 'request' => false];
+        }
 
     }
 
