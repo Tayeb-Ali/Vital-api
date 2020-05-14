@@ -92,7 +92,7 @@ class ProfileApiController extends Controller
     {
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $userId . '_pic.' . 'png';
+            $name = $userId . '_pic.' . $request->image->extension();
             $image->move(base_path() . '/public/profiles/', $name);
             $name = url("profiles/$name");
             return $name;

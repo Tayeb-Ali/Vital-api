@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +10,7 @@ use Illuminate\Support\Str;
 use App\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\JWTAuth;
 
 
 class AuthControllerApi extends Controller
@@ -113,10 +113,10 @@ class AuthControllerApi extends Controller
             'password' => 'required|max:30|min:6'
         ]);
         if ($validator->fails()) {
-            return response()->json(["message" => $validator->messages()->first(), "error" => true]);
+            return response()->json(["message" => $validator->errors()->first(), "error" => true]);
         }
 
-        $image = self::saveImage($request, Carbon::now()->format('y-m-d'));
+        $image = self::saveImage($request);
         $user = User::create([
             'phone' => $request->phone,
             'name' => $request->name,
@@ -183,11 +183,11 @@ class AuthControllerApi extends Controller
      * @param $request
      * @return string
      */
-    public function saveImage($request, $userId)
+    public function saveImage($request)
     {
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $userId . '_pic.' . 'png';
+            $name = str::random(4, 8) . '_pic.' . $request->image->extension();
             $image->move(base_path() . '/public/profiles/', $name);
             $name = url("profiles/$name");
             return $name;
