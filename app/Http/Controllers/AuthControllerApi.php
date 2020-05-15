@@ -52,7 +52,7 @@ class AuthControllerApi extends Controller
                 ->update(['fcm_registration_id' => $request->fcm_registration_id]);
         }
         //medical_director or doctors
-        $user = Auth::user();
+        $user = User::with('employ')->find(Auth::user()->id);
         if ($user->role == $request->role) {
             return response()->json([
                 'success' => true,
@@ -60,7 +60,7 @@ class AuthControllerApi extends Controller
                 'token_type' => 'bearer',
                 'token' => $token,
                 'expires_in' => Auth::factory()->getTTL(),
-                'user' => Auth::user(),
+                'user' => $user,
                 'message' => 'welcome dr: ' . $user->name
             ]);
         }
