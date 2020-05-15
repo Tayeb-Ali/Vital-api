@@ -2,6 +2,8 @@
 
 
 $classes = [
+
+    'locale' => env('APP_LOCALE', 'en'),
     'App' => Illuminate\Support\Facades\App::class,
     'Bus' => Illuminate\Support\Facades\Bus::class,
     'Hash' => Illuminate\Support\Facades\Hash::class,

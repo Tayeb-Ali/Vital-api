@@ -33,7 +33,7 @@ class AuthControllerApi extends Controller
             'role' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json(["message" => $validator->messages()->first(), "error" => true]);
+            return response()->json(["message" => 'phone number min 9 max 10', "error" => true]);
         }
         $credentials = $request->only(['phone', 'password']);
 
@@ -61,6 +61,7 @@ class AuthControllerApi extends Controller
                 'token' => $token,
                 'expires_in' => Auth::factory()->getTTL(),
                 'user' => Auth::user(),
+                'message' => 'welcome dr: ' . $user->name
             ]);
         }
 
@@ -113,7 +114,7 @@ class AuthControllerApi extends Controller
             'password' => 'required|max:30|min:6'
         ]);
         if ($validator->fails()) {
-            return response()->json(["message" => $validator->errors()->first(), "error" => true]);
+            return response()->json(["message" => 'phone number min 9 max 10, or phone number is used', "error" => true]);
         }
 
         $image = self::saveImage($request);
@@ -131,7 +132,8 @@ class AuthControllerApi extends Controller
         return response()->json([
             'success' => true,
             'error' => false,
-            'data' => $user
+            'data' => $user,
+            'message' => 'Welcome dr: ' . $user->name
         ]);
     }
 
