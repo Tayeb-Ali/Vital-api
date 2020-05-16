@@ -31,9 +31,15 @@ class AuthControllerApi extends Controller
             'phone' => 'required|max:10|min:9',
             'password' => 'required|max:30|min:6',
             'role' => 'required'
+        ], [
+            'phone.required' => "phone is required field",
+            'phone.min' => "phone min 9 number",
+            'phone.max' => "phone max 10 number",
+            'password.min' => "password min 6 ",
+            'password.max' => "password min 30 ",
         ]);
         if ($validator->fails()) {
-            return response()->json(["message" => 'phone number min 9 max 10', "error" => true]);
+            return response()->json(["message" => $validator->errors()->messages()->first(), "error" => true]);
         }
         $credentials = $request->only(['phone', 'password']);
 
@@ -112,9 +118,19 @@ class AuthControllerApi extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|unique:users|max:10|min:9',
             'password' => 'required|max:30|min:6'
-        ]);
+        ],
+            [
+                'name.required' => "name is required field",
+                'name.min' => "أكتب سته أحرف علي الأقل",
+                'phone.required' => "phone is required field",
+                'phone.min' => "phone min 9 number",
+                'password.min' => "password min 6 ",
+                'phone.max' => "phone max 10 number",
+
+            ]);
         if ($validator->fails()) {
-            return response()->json(["message" => 'phone number min 9 max 10, or phone number is used', "error" => true]);
+//            return response()->json(["message" => 'phone number min 9 max 10, or phone number is used', "error" => true]);
+            return response()->json(["message" => $validator->errors()->messages()->first(), "error" => true]);
         }
 
         $image = self::saveImage($request);
@@ -177,6 +193,58 @@ class AuthControllerApi extends Controller
             return 'true';
         }
         return 'false';
+
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function adminLogin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|max:30|min:6',
+            'role' => 'required'
+        ],
+            [
+                'name.required' => "حقل ألاسم مطلوب",
+                'name.min' => "أكتب سته أحرف علي الأقل",
+                'email.required' => "حقل البريد الإلكتروني مطلوب",
+                'email.email' => "البريد الإلتروني عير صحيح",
+            ]);
+        if ($validator->fails()) {
+            return response()->json(["message" => 'Email number min 9 max 10', "error" => true]);
+        }
+        $credentials = $request->only(['email', 'password']);
+
+        if (!$token = Auth::attempt($credentials)) {
+            return response()->json([
+                'success' => false,
+                'error' => true,
+                'message' => 'Invalid Email or Password',
+            ], 200);
+        }
+
+        $user = Auth::user();
+        //medical_director or doctors
+        if ($user->role == $request->role) {
+            return response()->json([
+                'success' => true,
+                'error' => false,
+                'token_type' => 'bearer',
+                'token' => $token,
+                'expires_in' => Auth::factory()->getTTL(),
+                'user' => $user,
+                'message' => 'welcome dr: ' . $user->name
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'error' => false,
+            'message' => "not your app"]);
+//        }
 
     }
 
