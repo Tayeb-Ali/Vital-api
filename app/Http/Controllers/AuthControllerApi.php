@@ -214,7 +214,7 @@ class AuthControllerApi extends Controller
                 'email.email' => "البريد الإلتروني عير صحيح",
             ]);
         if ($validator->fails()) {
-            return response()->json(["message" => 'Email number min 9 max 10', "error" => true]);
+            return response()->json(["message" => $validator->message()->first(), "error" => true]);
         }
         $credentials = $request->only(['email', 'password']);
 
