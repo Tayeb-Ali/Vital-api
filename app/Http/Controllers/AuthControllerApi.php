@@ -39,7 +39,7 @@ class AuthControllerApi extends Controller
             'password.max' => "password min 30 ",
         ]);
         if ($validator->fails()) {
-            return response()->json(["message" => $validator->errors()->messages()->first(), "error" => true]);
+            return response()->json(["message" => $validator->messages()->first(), "error" => true]);
         }
         $credentials = $request->only(['phone', 'password']);
 
@@ -130,7 +130,7 @@ class AuthControllerApi extends Controller
             ]);
         if ($validator->fails()) {
 //            return response()->json(["message" => 'phone number min 9 max 10, or phone number is used', "error" => true]);
-            return response()->json(["message" => $validator->errors()->messages()->first(), "error" => true]);
+            return response()->json(["message" => $validator->messages()->first(), "error" => true]);
         }
 
         $image = self::saveImage($request);
