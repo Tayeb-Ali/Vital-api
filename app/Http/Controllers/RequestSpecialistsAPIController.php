@@ -55,7 +55,7 @@ class RequestSpecialistsAPIController extends AppBaseController
                 $wallet->save();
             }
             $requestSpecialistsModle = new  RequestSpecialists();
-            $requestSpecialistsModle->users_notfication($request->medical_id, $requestSpecialists->id);
+            $requestSpecialistsModle->users_notfication($request->medical_id, $requestSpecialists);
             return $this->sendResponse($requestSpecialists->toArray(), 'Request Specialists saved successfully');
         }
     }

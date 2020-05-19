@@ -70,7 +70,7 @@ class FcmHelper extends Model
         return $result;
     }
 
-    function send_android_fcm_all($registatoin_ids, $title, $message, $requestId = null)
+    function send_android_fcm_all($registatoin_ids, $title, $message, $request = null)
     {
         $fields = array(
             'notification' =>
@@ -82,7 +82,9 @@ class FcmHelper extends Model
                 ),
             'data' =>
                 array(
-                    'requestId' => $requestId,
+                    'requestId' => $request->id,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
                 ),
             'registration_ids' => $registatoin_ids,
 

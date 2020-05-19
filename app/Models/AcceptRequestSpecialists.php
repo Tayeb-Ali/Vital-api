@@ -104,7 +104,7 @@ class AcceptRequestSpecialists extends Model
             'title' => "Request update",
             "message" => "You have received new message from" . $user->name,
             'fcm_registration_id' => $user->fcm_registration_id];
-        $fcm = $fcm->send_android_fcm(fcm_registration_id);
+        $fcm = $fcm->send_android_fcm(fcm_registration_id, '', '', '');
         $data = [$accept, $requestUpdate, $fcmData, $fcm];
 
         return $data;
@@ -128,8 +128,7 @@ class AcceptRequestSpecialists extends Model
     public function acceptRequestByUser($requestId, $doctor_id)
     {
         $requestSpecialistData = RequestSpecialists::where('id', $requestId)
-            ->where('status', env("STATUS_NEW"))
-            ->with('user')->first();
+            ->where('status', env("STATUS_NEW"))->first();
 
         if (!empty($requestSpecialistData)) {
             $acceptRequest = new AcceptRequestSpecialists();
@@ -178,13 +177,12 @@ class AcceptRequestSpecialists extends Model
 
     }
 
-
     /**
      * @param $requestId
      * @return AcceptRequestSpecialists|array|bool|Builder|mixed|null
      * @throws Exception
      */
-    public function cancelRequestByAdmin($requestId, $userId)
+    public function cancelRequestByAdmin($requestId)
     {
         $acceptRequest = AcceptRequestSpecialists::with('user')->find($requestId);
         $acceptRequest->delete();
@@ -236,7 +234,7 @@ class AcceptRequestSpecialists extends Model
 
     }
 
-    public function acceptRequestAndDone($requestId, $request, $userId)
+    public function acceptRequestAndDone($requestId, $request)
     {
         $acceptRequest = AcceptRequestSpecialists::whereRequestId($requestId)
             ->update([
@@ -245,7 +243,14 @@ class AcceptRequestSpecialists extends Model
                 'rating' => $request->rating
             ]);
         if ($acceptRequest) {
-            $requestSpecialist = RequestSpecialists::whereId($requestId)->whereStatus(env("STATUS_ACCEPT_ADMIN"))->update(['status' => 6]);
+            $requestSpecialist = RequestSpecialists::whereId($requestId)
+                ->where('status', env("STATUS_ACCEPT_ADMIN"))
+                ->first();
+            $requestSpecialist->status = 6;
+            $requestSpecialist->save();
+            $this->fcm_send([$requestSpecialist->user->fcm_registration_id], "Thanks you from, Vital",
+                $requestSpecialist->user->name . " confirmed the end of the shift.",
+                $requestSpecialist);
             return ['accept' => true, 'request' => true, 'data' => $requestSpecialist];
 
         } else {
