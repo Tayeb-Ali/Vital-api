@@ -33,8 +33,8 @@ class AuthControllerApi extends Controller
             'role' => 'required'
         ], [
             'phone.required' => "phone is required field",
-            'phone.min' => "phone min 9 number",
-            'phone.max' => "phone max 10 number",
+            'phone.min' => "min phone number is 9 num",
+            'phone.max' => "max phone number is 10 num",
             'password.min' => "password min 6 ",
             'password.max' => "password min 30 ",
         ]);
@@ -123,9 +123,9 @@ class AuthControllerApi extends Controller
                 'name.required' => "name is required field",
                 'name.min' => "أكتب سته أحرف علي الأقل",
                 'phone.required' => "phone is required field",
-                'phone.min' => "phone min 9 number",
+                'phone.min' => "min phone number is 9 num ",
                 'password.min' => "password min 6 ",
-                'phone.max' => "phone max 10 number",
+                'phone.max' => "max phone number is 10 num",
 
             ]);
         if ($validator->fails()) {
