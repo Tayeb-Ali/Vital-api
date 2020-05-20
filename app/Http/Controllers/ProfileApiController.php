@@ -24,7 +24,7 @@ class ProfileApiController extends Controller
     {
         $user = Auth::user();
         if ($user) {
-            $userModel = User::find($user->id)->first();
+            $userModel = User::find($user->id);
             $userModel->fcm_registration_id = $request->fcm_registration_id;
             $userModel->save();
             return response()->json(['status' => true, 'user' => $userModel]);
