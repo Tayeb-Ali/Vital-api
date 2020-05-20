@@ -131,8 +131,9 @@ class RequestSpecialistsAPIController extends AppBaseController
 
     public function adminHistory()
     {
-        return $user = Auth::user();
-//        return $this->requestSpecialistsRepository->wherePaginate('user_id', $user->id, 10);
+        $user = Auth::user()->id;
+
+        return $this->requestSpecialistsRepository->wherePaginate('user_id', $user, 10);
     }
 
     public function doctorHistory()
