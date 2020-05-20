@@ -64,9 +64,11 @@ class ProfileApiController extends Controller
         if ($userId) {
             $picFile = $this->saveImage($request, $userId);
             if ($picFile) {
-                $userModel = User::find($userId)->first();
+                $userModel = User::find($userId);
                 $userModel->image = $picFile;
-                $userModel->email = $request->email;
+                if ($request->email !== $userModel->email) {
+                    $userModel->email = $request->email;
+                }
                 $userModel->save();
                 return response()->json(['error' => false, 'message' => 'file add successful', 'user' => $userModel]);
             }
