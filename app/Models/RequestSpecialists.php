@@ -65,7 +65,7 @@ class RequestSpecialists extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $with = ['doctor', 'user', 'specialties', 'acceptRequest'];
+//    protected $with = ['doctor', 'user', 'specialties', 'acceptRequest'];
 
     public $fillable = [
         'name',
