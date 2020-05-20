@@ -51,6 +51,7 @@ class AcceptRequestSpecialists extends Model
     use SoftDeletes;
 
     public $table = 'accept_request_specialists';
+    public $with = ['doctor', 'request'];
 
 
     protected $dates = ['deleted_at'];
