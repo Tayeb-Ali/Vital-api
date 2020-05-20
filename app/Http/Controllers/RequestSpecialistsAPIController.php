@@ -133,9 +133,9 @@ class RequestSpecialistsAPIController extends AppBaseController
     {
         $user = Auth::user()->id;
 
-        return RequestSpecialists::whereUserId($user)
+        return dd(RequestSpecialists::whereUserId($user)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10));
 //        return $this->requestSpecialistsRepository->wherePaginate('user_id', $user, 10);
     }
 
