@@ -11,18 +11,16 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-//    return 'DetaTech ( 1.1.3) api V 2';
 
 
-    $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->post('admin_login', 'AuthControllerApi@adminLogin');
-    });
+//    $router->group(['prefix' => 'auth'], function () use ($router) {
+//
+//        $router->post('admin_login', 'AuthControllerApi@adminLogin');
+//    });
 
 
     $router->group(['prefix' => 'admin'], function () use ($router) {
-        $router->get('dashboard', 'AuthControllerApi@adminLogin');
+        $router->get('dashboard', 'Web\DashboardWEBController@index');
     });
 
 
-});

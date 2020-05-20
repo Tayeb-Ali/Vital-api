@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Providers\ConfigServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Fruitcake\Cors\CorsServiceProvider;
 use Fruitcake\Cors\HandleCors;
 use Tymon\JWTAuth\Providers\LumenServiceProvider;
@@ -105,7 +106,7 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(App\Providers\ConfigServiceProvider::class);
 
 if ($app->environment() !== 'production') {
-    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+    $app->register(IdeHelperServiceProvider::class);
 }
 /*
 |--------------------------------------------------------------------------
