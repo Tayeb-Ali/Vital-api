@@ -185,7 +185,7 @@ class AcceptRequestSpecialists extends Model
      */
     public function cancelRequestByAdmin($requestId)
     {
-        $acceptRequest = AcceptRequestSpecialists::with('user')->find($requestId);
+        $acceptRequest = AcceptRequestSpecialists::find($requestId);
         $acceptRequest->delete();
         if ($acceptRequest) {
             $requestData = RequestSpecialists::with('doctor')->find($requestId);
