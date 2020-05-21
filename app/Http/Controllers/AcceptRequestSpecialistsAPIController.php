@@ -156,9 +156,22 @@ class AcceptRequestSpecialistsAPIController extends AppBaseController
      */
     public function cancelRequestByAdmin($requestId)
     {
-        $userId = Auth::user()->id;
         $accept = new AcceptRequestSpecialists();
         return $accept->cancelRequestByAdmin($requestId);
+    }
+
+    /**
+     * cancelRequestByAdmin the specified AcceptRequestSpecialists in update.
+     * POST /cancelRequestByAdmin/{id}
+     *
+     * @param int $requestId
+     * @return Response
+     * @throws \Exception
+     */
+    public function cancelRequestByAdminToUser($requestId)
+    {
+        $accept = new AcceptRequestSpecialists();
+        return $accept->cancelRequestByAdminToUser($requestId);
     }
 
     /**

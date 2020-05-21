@@ -190,18 +190,43 @@ class AcceptRequestSpecialists extends Model
         if ($acceptRequest) {
             $requestData = RequestSpecialists::with('doctor')->find($requestId);
             $requestData->status = env("STATUS_CANCEL_ADMIN");
-//            $requestData = RequestSpecialists::whereId($requestId)->update(['status' => env("STATUS_CANCEL_ADMIN")]);
-
             $this->fcm_send([$requestData->doctor->fcm_registration_id],
                 "You have received new message ",
                 'your last Request is Cancel by admin',
                 $acceptRequest);
             $requestData->save();
 
-            return ['accept' => true, 'request' => true];
+            return ['accept' => true, 'request' => true, 'message' => 'request cancel successful'];
 
         } else {
-            return ['accept' => false, 'request' => false];
+            return ['accept' => false, 'request' => false, 'message' => 'request cancel failed'];
+        }
+
+    }
+
+    /**
+     * @param $requestId
+     * @return AcceptRequestSpecialists|array|bool|Builder|mixed|null
+     * @throws Exception
+     */
+    public function cancelRequestByAdminToUser($requestId)
+    {
+        $acceptRequest = AcceptRequestSpecialists::find($requestId);
+        $acceptRequest->delete();
+        if ($acceptRequest) {
+            $requestData = RequestSpecialists::with('doctor')->find($requestId);
+            $requestData->status = env("STATUS_NEW");
+            $this->fcm_send([$requestData->doctor->fcm_registration_id],
+                "You have received new message ",
+                'your last Request is Cancel by admin',
+                $acceptRequest);
+            $requestData->doctor_id = null;
+            $requestData->save();
+
+            return ['accept' => true, 'request' => true, 'message' => 'request cancel successful'];
+
+        } else {
+            return ['accept' => false, 'request' => false, 'message' => 'request cancel failed'];
         }
 
     }

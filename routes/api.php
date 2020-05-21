@@ -69,6 +69,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('acceptRequestByAdmin/{id}', 'AcceptRequestSpecialistsAPIController@acceptRequestByAdmin');
     $router->get('acceptRequestByUser/{id}', 'AcceptRequestSpecialistsAPIController@acceptRequestByUser');
     $router->get('cancelRequestByAdmin/{id}', 'AcceptRequestSpecialistsAPIController@cancelRequestByAdmin');
+    $router->get('cancelRequestByAdminToUser/{id}', 'AcceptRequestSpecialistsAPIController@cancelRequestByAdminToUser');
     $router->get('cancelRequestByUser/{id}', 'AcceptRequestSpecialistsAPIController@cancelRequestByUser');
     $router->post('acceptRequestAndDone/{id}', 'AcceptRequestSpecialistsAPIController@acceptRequestAndDone');
 //
