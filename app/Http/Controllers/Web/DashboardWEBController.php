@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
+use App\Models\EmergencyServiced;
 use App\Models\RequestSpecialists;
 use App\User;
 
@@ -23,7 +24,8 @@ class DashboardWEBController extends AppBaseController
         return [
             'data' => [
                 'users' => $this->users(),
-                'medicalRequest' => $this->medicalRequests()
+                'medicalRequest' => $this->medicalRequests(),
+                'emergency' => $this->emergencyRequests()
             ]
         ];
     }
@@ -58,6 +60,6 @@ class DashboardWEBController extends AppBaseController
 
     private function emergencyRequests()
     {
-
+        return ['emergency' => EmergencyServiced::all()->count()];
     }
 }
