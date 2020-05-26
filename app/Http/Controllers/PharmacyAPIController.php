@@ -106,7 +106,7 @@ class PharmacyAPIController extends AppBaseController
         if ($user) {
             $input = $request->all();
             $pharmacy = $this->pharmacyRepository->createApi($input);
-            if ($pharmacy){
+            if ($pharmacy) {
                 $wallet = Wallet::whereUserId($user->id)->first();
                 $wallet->balance = $wallet->balance - env('AMBULANCE_POINT');
                 $wallet->save();
@@ -254,8 +254,10 @@ class PharmacyAPIController extends AppBaseController
             return $this->sendError('Pharmacy not found');
         }
         $pharmacy = $this->pharmacyRepository->update($input, $id);
-        $user = User::find($pharmacy->user->id)->first();;
-        $this->fcm_send($user->fcm_registration_id);
+        $user = User::find($pharmacy->user->id);
+        if ($user->fcm_registration_id) {
+            $this->fcm_send($user->fcm_registration_id, $pharmacyUser, $id);
+        }
         $wallet = Wallet::whereUserId($pharmacyUser->id)->first();;
         $wallet->balance = ($wallet->balance - env('AMBULANCE_POINT'));
         $wallet->save();
@@ -316,11 +318,11 @@ class PharmacyAPIController extends AppBaseController
     }
 
 
-    private function fcm_send($fcm_registration_id)
+    private function fcm_send($fcm_registration_id, $fromData, $id)
     {
         $title = 'new message';
-        $message = 'open Pharmacy Page';
+        $message = 'from: ' . $fromData->name;
         $result = new FcmHelper();
-        return $result->send_android_fcm($fcm_registration_id, $title, $message);
+        return $result->send_message_fcm($fcm_registration_id, $title, $message, $id);
     }
 }
