@@ -132,13 +132,19 @@ class RequestSpecialistsAPIController extends AppBaseController
     public function adminHistory()
     {
         $user = Auth::user()->id;
-        return $this->requestSpecialistsRepository->wherePaginate('user_id', $user, 10);
+        if ($user) {
+            return $this->requestSpecialistsRepository->wherePaginate('user_id', $user, 10);
+        }
+        return ['message' => 'error in your token re-login again', 'status' => false, 'error' => true];
     }
 
     public function doctorHistory()
     {
         $user = Auth::user();
-        return $this->requestSpecialistsRepository->wherePaginate('doctor_id', $user->id, 10);
+        if ($user) {
+            return $this->requestSpecialistsRepository->wherePaginate('doctor_id', $user->id, 10);
+        }
+        return ['message' => 'error in your token re-login again', 'status' => false, 'error' => true];
     }
 
     /**
