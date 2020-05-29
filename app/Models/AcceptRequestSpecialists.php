@@ -186,8 +186,8 @@ class AcceptRequestSpecialists extends Model
     public function cancelRequestByAdmin($requestId)
     {
         $acceptRequest = AcceptRequestSpecialists::find($requestId);
-        $acceptRequest->delete();
         if ($acceptRequest) {
+            $acceptRequest->delete();
             $requestData = RequestSpecialists::with('doctor')->find($requestId);
             $requestData->status = env("STATUS_CANCEL_ADMIN");
             $this->fcm_send([$requestData->doctor->fcm_registration_id],
