@@ -73,7 +73,7 @@ class AuthControllerApi extends Controller
 
         return response()->json([
             'success' => false,
-            'error' => false,
+            'error' => true,
             'message' => "not your app"]);
 //        }
 
