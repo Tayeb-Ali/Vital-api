@@ -7,7 +7,6 @@ use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Http;
 
 /**
  * App\FcmHelper
@@ -84,10 +83,10 @@ class FcmHelper extends Model
      * @param $topic
      * @param $title
      * @param $message
-     * @param null $requestId
+     * @param null $request
      * @return array|bool|string
      */
-    function send_android_fcm_topic($topic, $title, $message, $requestId = null)
+    function send_fcm_topic_requests($topic, $title, $message, $request = null)
     {
         $fields = array(
             'notification' =>
@@ -99,7 +98,10 @@ class FcmHelper extends Model
                 ),
             'data' =>
                 array(
-                    'requestId' => $requestId,
+                    'requestId' => $request->id,
+                    'status' => 1,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
                 ),
             'to' => "/topics/$topic",
 
@@ -125,35 +127,13 @@ class FcmHelper extends Model
             'registration_ids' => $fcm_registration_id,
 
         );
-        //Google cloud messaging GCM-API url
-        $url = 'https://fcm.googleapis.com/fcm/send';
-//       return $fields;
 
-        // Update your Google Cloud Messaging API Key
-        define("GOOGLE_API_KEY", env('FCM_SERVER_KEY'));
-
-        $headers = [
-            'Authorization: key=' . GOOGLE_API_KEY,
-            'Content-Type: application/json'];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        if ($result === FALSE) {
-            die('Curl failed: ' . curl_error($ch));
-        }
-        curl_close($ch);
-        return $result;
+        return $this->send_message($fields);
     }
 
     private function send_message($fields)
     {
-        $fields = json_encode ( $fields );
+        $fields = json_encode($fields);
 
         $headers = [
             'Authorization' => "key=" . GOOGLE_API_KEY,

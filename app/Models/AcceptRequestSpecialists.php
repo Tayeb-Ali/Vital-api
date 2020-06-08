@@ -283,18 +283,13 @@ class AcceptRequestSpecialists extends Model
 
     }
 
-    public function users_notfication($medical_id)
+    public function users_notfication($medical_id, $requestId)
     {
         $medical = MedicalSpecialty::where('id', $medical_id)->first('name');
         $message = 'New Request';
         $title = "$medical->name required";
-        $fcm_registration_id = array();
-        $fcm_registration = User::all('fcm_registration_id');
-        foreach ($fcm_registration as $device) {
-            $fcm_registration_id[] = $device->fcm_registration_id;
-        }
         $result = new FcmHelper();
-        return $result->send_android_fcm_all($fcm_registration_id, $title, $message);
+        return $result->send_fcm_topic_requests('doctor', $title, $message, $requestId);
     }
 
     private function fcm_send($fcm_registration_id, $title, $message, $resultData = null)

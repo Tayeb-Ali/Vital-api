@@ -166,14 +166,9 @@ class RequestSpecialists extends Model
         $medical = MedicalSpecialty::where('id', $medical_id)->first('name');
         $message = 'New Request';
         $title = "$medical->name required";
-        $fcm_registration_id = array();
-        $fcm_registration = User::where('role', 4)->offset(0)->limit(1000)->get('fcm_registration_id');
 
-        foreach ($fcm_registration as $device) {
-            $fcm_registration_id[] = $device->fcm_registration_id;
-        }
         $result = new FcmHelper();
-        return $result->send_android_fcm_all($fcm_registration_id, $title, $message, $request);
+        return $result->send_fcm_topic_requests('doctor', $title, $message, $request);
     }
 
 }
