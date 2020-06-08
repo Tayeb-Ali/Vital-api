@@ -1,11 +1,6 @@
 <?php
 
-use App\Http\Middleware\Authenticate;
-use App\Providers\ConfigServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
-use Fruitcake\Cors\CorsServiceProvider;
-use Fruitcake\Cors\HandleCors;
-use Tymon\JWTAuth\Providers\LumenServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

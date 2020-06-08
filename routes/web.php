@@ -12,15 +12,19 @@
 */
 
 
-
 //    $router->group(['prefix' => 'auth'], function () use ($router) {
 //
 //        $router->post('admin_login', 'AuthControllerApi@adminLogin');
 //    });
 
 
-    $router->group(['prefix' => 'admin'], function () use ($router) {
-        $router->get('dashboard', 'Web\DashboardWEBController@index');
-    });
+$router->group(['prefix' => 'admin'], function () use ($router) {
+    $router->get('dashboard', 'Web\DashboardWEBController@index');
+});
 
+$router->get('topic', function () {
+    $dd = new \App\FcmHelper();
+    return $dd->send_android_fcm_topic('doctor', 'welcome', 'wellcom in Hawjah app', 1);
+
+});
 

@@ -300,7 +300,7 @@ class AcceptRequestSpecialists extends Model
     private function fcm_send($fcm_registration_id, $title, $message, $resultData = null)
     {
         $result = new FcmHelper();
-        return $result->send_android_fcm($fcm_registration_id, $title, $message, $resultData);
+        return $result->send_android_fcm($fcm_registration_id, $title, $message, $resultData, 1);
     }
 
 }
