@@ -103,26 +103,6 @@ class RequestSpecialists extends Model
     ];
 
 
-    /**
-     * @param $medical_id
-     * @return bool
-     */
-//    public function newRequestProcess($medical_id)
-//    {
-//        $user = Auth::user();
-////        $employ = Employ::where('medical_field_id', $medical_id)->first()
-////            ->whith('doctor')->get('fcm_registration_id');
-//
-//        if ($user) {
-//            $wallet = Wallet::where('user_id', $user->id)->first();
-//            $wallet->balance = $wallet->balance - env('REQUEST_POINT');
-//            $wallet->save();
-//
-//            $fcm = new FcmHelper();
-////            $fcm->send_android_fcm_all($employ, 'New Request', "Doctor required");
-//        }
-//        return false;
-//    }
 
     /**
      * @return BelongsTo

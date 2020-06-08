@@ -54,30 +54,6 @@ class FcmHelper extends Model
         return $this->send_message($fields);
     }
 
-    function send_android_fcm_all($registatoin_ids, $title, $message, $request = null, $status = null)
-    {
-        $fields = array(
-            'notification' =>
-                array(
-                    'title' => $title,
-                    'body' => $message,
-                    'sound' => 'default',
-                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
-                ),
-            'data' =>
-                array(
-                    'requestId' => $request->id,
-                    'latitude' => $request->latitude,
-                    'longitude' => $request->longitude,
-                    'status' => $status,
-                ),
-            'registration_ids' => $registatoin_ids,
-
-        );
-
-        return $this->send_message($fields);
-
-    }
 
     /**
      * @param $topic
@@ -110,6 +86,64 @@ class FcmHelper extends Model
         return $this->send_message($fields);
     }
 
+    /**
+     * @param $topic
+     * @param $title
+     * @param $message
+     * @param null $requestId
+     * @return array|bool|string
+     */
+    function send_fcm_topic_emergency($topic, $title, $message, $requestId = null)
+    {
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $requestId,
+                    'status' => 2,
+                ),
+            'to' => "/topics/$topic",
+
+        );
+
+        return $this->send_message($fields);
+    }
+
+    /**
+     * @param $topic
+     * @param $title
+     * @param $message
+     * @param null $requestId
+     * @return array|bool|string
+     */
+    function send_fcm_topic_pharmacy($topic, $title, $message, $requestId = null)
+    {
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $requestId,
+                    'status' => 3,
+                ),
+            'to' => "/topics/$topic",
+
+        );
+
+        return $this->send_message($fields);
+    }
+
     function send_message_fcm($fcm_registration_id, $title, $message, $resultData = null)
     {
         $fields = array(
@@ -131,6 +165,7 @@ class FcmHelper extends Model
         return $this->send_message($fields);
     }
 
+    // send Fcm function
     private function send_message($fields)
     {
         $fields = json_encode($fields);
