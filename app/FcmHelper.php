@@ -157,6 +157,7 @@ class FcmHelper extends Model
             'data' =>
                 array(
                     'pharmacyId' => $resultData,
+                    'status' => 3,
                 ),
             'registration_ids' => $fcm_registration_id,
 
