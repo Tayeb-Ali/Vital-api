@@ -1,6 +1,18 @@
 <?php
 
+use App\Exceptions\Handler;
+use App\Http\Middleware\Authenticate;
+use App\Providers\AppServiceProvider;
+use App\Providers\AuthServiceProvider;
+use App\Providers\ConfigServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Fruitcake\Cors\CorsServiceProvider;
+use Fruitcake\Cors\HandleCors;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Laravel\Lumen\Application;
+use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
+use Tymon\JWTAuth\Providers\LumenServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

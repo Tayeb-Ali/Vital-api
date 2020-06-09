@@ -8,6 +8,7 @@ use App\Repositories\RequestSpecialistsRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -149,7 +150,7 @@ class RequestSpecialistsAPIController extends AppBaseController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function search(Request $request)
     {

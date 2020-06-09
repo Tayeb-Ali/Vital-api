@@ -123,13 +123,13 @@ class AuthControllerApi extends Controller
                 'name.required' => "name is required field",
                 'name.min' => "أكتب سته أحرف علي الأقل",
                 'phone.required' => "phone is required field",
+                'phone.unique' => "this phone number is used ",
                 'phone.min' => "min phone number is 9 num ",
                 'password.min' => "password min 6 ",
                 'phone.max' => "max phone number is 10 num",
 
             ]);
         if ($validator->fails()) {
-//            return response()->json(["message" => 'phone number min 9 max 10, or phone number is used', "error" => true]);
             return response()->json(["message" => $validator->messages()->first(), "error" => true]);
         }
 

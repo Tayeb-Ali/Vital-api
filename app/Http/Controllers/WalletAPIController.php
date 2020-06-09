@@ -227,6 +227,7 @@ class WalletAPIController extends AppBaseController
      * @param int $id
      * @return Response
      *
+     * @throws \Exception
      * @SWG\Delete(
      *      path="/wallets/{id}",
      *      summary="Remove the specified Wallet from storage",
@@ -275,41 +276,4 @@ class WalletAPIController extends AppBaseController
         return $this->sendSuccess('Wallet deleted successfully');
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/my_wallets",
-     *      summary="Display the specified Wallet. By userID",
-     *      tags={"Wallet"},
-     *      description="Get one Wallets By userID",
-     *      produces={"application/json"},
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Wallet")
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
-     */
-
-    public function myBalancy()
-    {
-
-    }
 }
