@@ -21,24 +21,42 @@ class DashboardWEBController extends AppBaseController
      */
     public function index()
     {
-        return [
-            'data' => [
-                'users' => $this->users(),
-                'medicalRequest' => $this->medicalRequests(),
-                'emergency' => $this->emergencyRequests()
-            ]
-        ];
+//        return [
+//            'data' =>
+//         $data = [
+//             $this->users(),
+////            'medicalRequest' => $this->medicalRequests(),
+////            'emergency' => $this->emergencyRequests()
+////            ]
+//        ];
+        $requests = RequestSpecialists::all()->count();
+        $doctor = User::whereRole(4)->count();
+        $provider = User::whereRole(3)->count();
+        $userCount = User::all()->count();
+        $pharmacists = User::whereRole(5)->count();
+
+
+        $users = User::orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('dashboard.index', compact([
+            'users',
+            'userCount',
+            'provider',
+            'doctor',
+            'pharmacists',
+            'requests']));
     }
 
     private function users()
     {
-        $admin_user = User::whereRole(4)->count();
+        $users = User::all()->count();
         $doctor = User::whereRole(4)->count();
         $pharmacists = User::whereRole(5)->count();
         $nurse = User::whereRole(6)->count();
         $other = User::whereRole(7)->count();
         return [
-            'admin_user' => $admin_user,
+            'user' => $users,
             'doctor' => $doctor,
             'pharmacists' => $pharmacists,
             'nurse' => $nurse,

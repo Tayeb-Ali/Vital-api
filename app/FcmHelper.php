@@ -54,6 +54,34 @@ class FcmHelper extends Model
         return $this->send_message($fields);
     }
 
+    /**
+     * Sending Message From FCM For Android
+     * @param $fcm_registration_id
+     * @param $title
+     * @param $message
+     * @param null $status
+     * @return bool|string
+     */
+    function send_normal_fcm($fcm_registration_id, $title, $message, $status = null)
+    {
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'status' => $status,
+                ),
+            'registration_ids' => $fcm_registration_id,
+
+        );
+        return $this->send_message($fields);
+    }
+
 
     /**
      * @param $topic
