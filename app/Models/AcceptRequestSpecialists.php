@@ -189,10 +189,12 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest2 = AcceptRequestSpecialists::where('request_id', $requestId)->delete();
         $requestData = RequestSpecialists::with('doctor')->find($requestId);
         $requestData->status = env("STATUS_CANCEL_ADMIN");
-        $this->fcm_send([$requestData->doctor->fcm_registration_id],
-            "You have received new message ",
-            'your last Request is Cancel by admin',
-            $acceptRequest);
+        if ($requestData->doctor->fcm_registration_id) {
+            $this->fcm_send([$requestData->doctor->fcm_registration_id],
+                "You have received new message ",
+                'your last Request is Cancel by admin',
+                $acceptRequest);
+        }
         $requestData->save();
         if ($acceptRequest2) {
             return ['accept' => true, 'request' => true, 'message' => 'request cancel successful'];
@@ -215,10 +217,12 @@ class AcceptRequestSpecialists extends Model
         if ($acceptRequest2) {
             $requestData = RequestSpecialists::with('doctor')->find($requestId);
             $requestData->status = env("STATUS_NEW");
-            $this->fcm_send([$requestData->doctor->fcm_registration_id],
-                "You have received new message ",
-                'your last Request is Cancel by admin',
-                $acceptRequest);
+            if ($requestData->doctor->fcm_registration_id) {
+                $this->fcm_send([$requestData->doctor->fcm_registration_id],
+                    "You have received new message ",
+                    'your last Request is Cancel by admin',
+                    $acceptRequest);
+            }
             $requestData->doctor_id = null;
             $requestData->save();
 
@@ -245,10 +249,12 @@ class AcceptRequestSpecialists extends Model
             $resultData->status = env("STATUS_NEW");
             $resultData->doctor_id = null;
             $resultData->doctor;
-            $this->fcm_send([$resultData->user->fcm_registration_id],
-                "You have received new message ",
-                'your last Request is Cancel by user',
-                $resultData);
+            if ($resultData->user->fcm_registration_id) {
+                $this->fcm_send([$resultData->user->fcm_registration_id],
+                    "You have received new message ",
+                    'your last Request is Cancel by user',
+                    $resultData);
+            }
             $resultData->save();
 
             return ['accept' => true, 'request' => true];
@@ -273,9 +279,11 @@ class AcceptRequestSpecialists extends Model
                 ->first();
             $requestSpecialist->status = 6;
             $requestSpecialist->save();
-            $this->fcm_send([$requestSpecialist->user->fcm_registration_id], "Thanks you from, Vital",
-                $requestSpecialist->user->name . " confirmed the end of the shift.",
-                $requestSpecialist);
+            if ($requestSpecialist->user->fcm_registration_id) {
+                $this->fcm_send([$requestSpecialist->user->fcm_registration_id], "Thanks you from, Vital",
+                    $requestSpecialist->user->name . " confirmed the end of the shift.",
+                    $requestSpecialist);
+            }
             return ['accept' => true, 'request' => true, 'data' => $requestSpecialist];
 
         } else {
