@@ -186,7 +186,7 @@ class AcceptRequestSpecialists extends Model
     public function cancelRequestByAdmin($requestId)
     {
         $acceptRequest = AcceptRequestSpecialists::where('request_id', $requestId)->first();
-        $acceptRequest->delete();
+        $acceptRequest2 = AcceptRequestSpecialists::where('request_id', $requestId)->delete();
         $requestData = RequestSpecialists::with('doctor')->find($requestId);
         $requestData->status = env("STATUS_CANCEL_ADMIN");
         $this->fcm_send([$requestData->doctor->fcm_registration_id],
@@ -194,7 +194,7 @@ class AcceptRequestSpecialists extends Model
             'your last Request is Cancel by admin',
             $acceptRequest);
         $requestData->save();
-        if ($requestData) {
+        if ($acceptRequest2) {
             return ['accept' => true, 'request' => true, 'message' => 'request cancel successful'];
         } else {
             return ['accept' => false, 'request' => false, 'message' => 'request cancel failed'];
@@ -210,8 +210,9 @@ class AcceptRequestSpecialists extends Model
     public function cancelRequestByAdminToUser($requestId)
     {
         $acceptRequest = AcceptRequestSpecialists::where('request_id', $requestId)->first();
-        $acceptRequest->delete();
-        if ($acceptRequest) {
+        $acceptRequest2 = AcceptRequestSpecialists::where('request_id', $requestId)->delete();
+
+        if ($acceptRequest2) {
             $requestData = RequestSpecialists::with('doctor')->find($requestId);
             $requestData->status = env("STATUS_NEW");
             $this->fcm_send([$requestData->doctor->fcm_registration_id],
