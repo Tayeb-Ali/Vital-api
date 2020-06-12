@@ -189,7 +189,7 @@ class AcceptRequestSpecialists extends Model
         $acceptRequest2 = AcceptRequestSpecialists::where('request_id', $requestId)->delete();
         $requestData = RequestSpecialists::with('doctor')->find($requestId);
         $requestData->status = env("STATUS_CANCEL_ADMIN");
-        if ($requestData->doctor->fcm_registration_id) {
+        if ($requestData->doctor) {
             $this->fcm_send([$requestData->doctor->fcm_registration_id],
                 "You have received new message ",
                 'your last Request is Cancel by admin',
