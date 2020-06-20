@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Repositories\BlogRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 
 
 /**
@@ -30,13 +33,13 @@ class BlogAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $employs = $this->blogRepository->all(
+        $blogs = $this->blogRepository->all(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
         );
 
-        return $this->sendResponse($employs->toArray(), 'Blog retrieved successfully');
+        return $this->sendResponse($blogs->toArray(), 'Blog retrieved successfully');
     }
 
     /**
@@ -67,11 +70,11 @@ class BlogAPIController extends AppBaseController
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
 
-        if (empty($employ)) {
+        if (empty($blog)) {
             return $this->sendError('Blog not found');
         }
 
-        return $this->sendResponse($employ->toArray(), 'Blog retrieved successfully');
+        return $this->sendResponse($blog->toArray(), 'Blog retrieved successfully');
     }
 
     /**
@@ -90,13 +93,13 @@ class BlogAPIController extends AppBaseController
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
 
-        if (empty($employ)) {
+        if (empty($blog)) {
             return $this->sendError('Blog not found');
         }
 
         $blog = $this->blogRepository->update($input, $id);
 
-        return $this->sendResponse($employ->toArray(), 'Blog updated successfully');
+        return $this->sendResponse($blog->toArray(), 'Blog updated successfully');
     }
 
     /**
@@ -114,11 +117,11 @@ class BlogAPIController extends AppBaseController
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
 
-        if (empty($employ)) {
+        if (empty($blog)) {
             return $this->sendError('Blog not found');
         }
 
-        $employ->delete();
+        $blog->delete();
 
         return $this->sendSuccess('Blog deleted successfully');
     }
