@@ -23,6 +23,7 @@
     <!-- Custom styles for this page -->
     <link href="https://elteyab.github.io/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -230,6 +231,18 @@
 <!-- Page level custom scripts -->
 <script src="https://elteyab.github.io/js/demo/datatables-demo.js"></script>
 
+<script src="https://cdn.tiny.cloud/1/yyb0pwzhnkisx8n0syeciaz3kb6dygw7hql7ievylcj6yyzb/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>
 </body>
 
 </html>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Blog;
 use App\Repositories\BlogRepository;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
@@ -31,7 +33,7 @@ class BlogWEBController extends AppBaseController
      */
     public function index()
     {
-        $blogs = $this->blogRepository->paginate(12);
+        $blogs = $this->blogRepository->paginate(10);
 
         return view('blog.index', compact('blogs'));
     }
@@ -49,15 +51,17 @@ class BlogWEBController extends AppBaseController
         $input = $request->all();
         $image = $this->saveImage($request);
         if ($image) {
-            $request->merge(['image' => $image]);
-            $this->blogRepository->createApi($input);
-            return view('blog.index', 'Blog saved successfully');
-        } else {
-            $this->blogRepository->createApi($input);
-            return view('blog.index', 'Blog saved successfully');
+            $blog = new Blog();
+            $blog->fill($input);
+            $blog->image = $image;
+            $blog->user_id = 1;
+            $blog->save();
+            if ($blog) {
+                return redirect('admin/blog');
+            }
         }
-
     }
+
 
     /**
      * Display the specified Blog.
@@ -67,7 +71,8 @@ class BlogWEBController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
@@ -80,13 +85,26 @@ class BlogWEBController extends AppBaseController
 
     /**
      * Display the specified Blog.
+     * GET|HEAD /blog/{id}/create
+     *
+     * @return Response
+     */
+    public
+    function create()
+    {
+        return view('blog.create');
+    }
+
+    /**
+     * Display the specified Blog.
      * GET|HEAD /blog/{id}/edit
      *
      * @param int $id
      *
      * @return Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
@@ -99,14 +117,15 @@ class BlogWEBController extends AppBaseController
 
     /**
      * Update the specified Blog in storage.
-     * PUT/PATCH /blog/{id}
+     * PUT/PATCH /blog/{id}/update
      *
      * @param int $id
      * @param Request $request
      *
      * @return Response
      */
-    public function update($id, Request $request)
+    public
+    function update($id, Request $request)
     {
         $input = $request->all();
 
@@ -127,11 +146,12 @@ class BlogWEBController extends AppBaseController
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      *
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
@@ -144,7 +164,8 @@ class BlogWEBController extends AppBaseController
         return redirect('admin/blog');
     }
 
-    public function saveImage($request)
+    public
+    function saveImage($request)
     {
         $random = Str::random(10);
         if ($request->hasfile('image')) {

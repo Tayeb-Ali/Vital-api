@@ -6,12 +6,16 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-    {{--        <h1 class="h3 mb-2 text-gray-800">Blog</h1>--}}
+        {{--            <h1 class="h3 mb-2 text-gray-800">Blog</h1>--}}
 
-    <!-- DataTales Example -->
+        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">All Blog</h6>
+                <br>
+                <a href="blog/create" class="btn-lg btn-primary">
+                    Add <i class="fas fa-pen-square"></i>
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -49,8 +53,12 @@
 
                                 @endif
                                 <td>{{$item->created_at}}</td>
-                                <td><a href="blog/{{$item->id}}/view" class="btn btn-primary btn-circle">
+                                <td>
+                                    <a href="blog/{{$item->id}}/view" class="btn btn-primary btn-circle">
                                         <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="blog/{{$item->id}}/edit" class="btn btn-info btn-circle">
+                                        <i class="fas fa-edit"></i>
                                     </a>
 
                                     <a href="blog/{{$item->id}}/delete"

@@ -24,6 +24,7 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
     //blog
     $router->get('blog', 'Web\BlogWEBController@index');
     $router->post('blog', 'Web\BlogWEBController@store');
+    $router->get('blog/create', 'Web\BlogWEBController@create');
     $router->get('blog/{id}/view', 'Web\BlogWEBController@show');
     $router->get('blog/{id}/edit', 'Web\BlogWEBController@edit');
     $router->put('blog/{id}/update', 'Web\BlogWEBController@update');
