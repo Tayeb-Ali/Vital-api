@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use App\User;
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
- * @SWG\Definition(
+ * App\Models\EmergencyServiced
+ *
+ * @SWG\Definition (
  *      definition="EmergencyServiced",
  *      required={"name", "address", "price_per_day", "type", "contact", "available"},
  *      @SWG\Property(
@@ -68,6 +74,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="date-time"
  *      )
  * )
+ * @property int $id
+ * @property string $name
+ * @property string $address
+ * @property string|null $contact
+ * @property float $price_per_day
+ * @property string $type
+ * @property int $available
+ * @property int $user_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read User $doctor
+ * @property-read Collection|EmergencyServiced[] $emergency
+ * @property-read int|null $emergency_count
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced newQuery()
+ * @method static Builder|EmergencyServiced onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereContact($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced wherePricePerDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyServiced whereUserId($value)
+ * @method static Builder|EmergencyServiced withTrashed()
+ * @method static Builder|EmergencyServiced withoutTrashed()
+ * @mixin Eloquent
  */
 class EmergencyServiced extends Model
 {

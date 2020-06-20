@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FcmHelper;
 use App\User;
+use Eloquent;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,13 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|AcceptRequestSpecialists whereUpdatedAt($value)
  * @method static Builder|AcceptRequestSpecialists withTrashed()
  * @method static Builder|AcceptRequestSpecialists withoutTrashed()
+ * @property string|null $note
+ * @property string|null $recommendation
+ * @property int|null $rating
+ * @property int $doctor_id
+ * @property int $request_id
+ * @property-read RequestSpecialists $request
+ * @mixin Eloquent
  */
 class AcceptRequestSpecialists extends Model
 {

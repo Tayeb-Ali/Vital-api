@@ -3,12 +3,17 @@
 namespace App\Models;
 
 use App\User;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
- * @SWG\Definition(
+ * App\Models\Ambulance
+ *
+ * @SWG\Definition (
  *      definition="Ambulance",
  *      required={"title", "longitude", "latitude"},
  *      @SWG\Property(
@@ -55,6 +60,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="date-time"
  *      )
  * )
+ * @property int $id
+ * @property string $title
+ * @property string $address
+ * @property float $longitude
+ * @property float $latitude
+ * @property int $status
+ * @property int $user_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance newQuery()
+ * @method static Builder|Ambulance onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ambulance whereUserId($value)
+ * @method static Builder|Ambulance withTrashed()
+ * @method static Builder|Ambulance withoutTrashed()
+ * @mixin Eloquent
  */
 class Ambulance extends Model
 {

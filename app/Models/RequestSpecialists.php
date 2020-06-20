@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FcmHelper;
 use App\User;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -55,6 +56,25 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder|RequestSpecialists whereUserId($value)
  * @method static Builder|RequestSpecialists withTrashed()
  * @method static Builder|RequestSpecialists withoutTrashed()
+ * @property string $name
+ * @property string $address
+ * @property mixed $start_time
+ * @property mixed $end_time
+ * @property int $number_of_hour
+ * @property float $price
+ * @property int $status
+ * @property float $longitude
+ * @property float $latitude
+ * @property int $medical_id
+ * @property int $user_id
+ * @property int|null $doctor_id
+ * @property-read AcceptRequestSpecialists|null $acceptRequest
+ * @property-read User|null $doctor
+ * @property-read MedicalSpecialty $specialties
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|RequestSpecialists whereMedicalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RequestSpecialists whereStatus($value)
+ * @mixin Eloquent
  */
 class RequestSpecialists extends Model
 {
@@ -101,7 +121,6 @@ class RequestSpecialists extends Model
         'number_of_hour' => 'integer',
         'status' => 'integer'
     ];
-
 
 
     /**

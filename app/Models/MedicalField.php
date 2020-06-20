@@ -32,6 +32,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MedicalField withTrashed()
  * @method static Builder|MedicalField withoutTrashed()
  * @mixin Eloquent
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MedicalSpecialty[] $medical
+ * @property-read int|null $medical_count
  */
 class MedicalField extends Model
 {

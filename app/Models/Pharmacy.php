@@ -3,12 +3,17 @@
 namespace App\Models;
 
 use App\User;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
- * @SWG\Definition(
+ * App\Models\Pharmacy
+ *
+ * @SWG\Definition (
  *      definition="Pharmacy",
  *      required={"name", "address", "dose", "type"},
  *      @SWG\Property(
@@ -56,6 +61,41 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="date-time"
  *      )
  * )
+ * @property int $id
+ * @property string $name
+ * @property string|null $address
+ * @property int $dose
+ * @property bool $company
+ * @property string $type
+ * @property float|null $price
+ * @property bool|null $available
+ * @property int $user_id
+ * @property int|null $pharmacy_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read User|null $pharmacy
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy newQuery()
+ * @method static Builder|Pharmacy onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereDose($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy wherePharmacyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Pharmacy whereUserId($value)
+ * @method static Builder|Pharmacy withTrashed()
+ * @method static Builder|Pharmacy withoutTrashed()
+ * @mixin Eloquent
  */
 class Pharmacy extends Model
 {

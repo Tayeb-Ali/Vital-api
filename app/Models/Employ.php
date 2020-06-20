@@ -52,6 +52,16 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|Employ whereYearsOfExperience($value)
  * @method static Builder|Employ withTrashed()
  * @method static Builder|Employ withoutTrashed()
+ * @property mixed $graduation_date
+ * @property mixed $birth_of_date
+ * @property string $medical_registration_number
+ * @property mixed $registration_date
+ * @property string $address
+ * @property int $years_of_experience
+ * @property string $cv
+ * @property int $user_id
+ * @property-read \App\Models\MedicalSpecialty $specialty
+ * @mixin \Eloquent
  */
 class Employ extends Model
 {

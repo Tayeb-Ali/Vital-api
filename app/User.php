@@ -13,6 +13,52 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $phone
+ * @property string|null $email
+ * @property string|null $fcm_registration_id
+ * @property string|null $image
+ * @property string $password
+ * @property int $active
+ * @property string|null $confirmation_code
+ * @property int $confirmed
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property int $status
+ * @property int $role
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $remember_token
+ * @property string|null $deleted_at
+ * @property-read \App\Models\AcceptRequestSpecialists|null $acceptRequest
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EmergencyServiced[] $emergency
+ * @property-read int|null $emergency_count
+ * @property-read \App\Models\Employ|null $employ
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmationCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereFcmRegistrationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable;

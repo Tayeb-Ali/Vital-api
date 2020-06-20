@@ -4,11 +4,16 @@ namespace App\Models;
 
 use App\Models\EmergencyServiced;
 use App\User;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
- * @SWG\Definition(
+ * App\Models\EmergencyRequest
+ *
+ * @SWG\Definition (
  *      definition="EmergencyRequest",
  *      required={"reports", "reports_file", "doctor_id", "emergency_id"},
  *      @SWG\Property(
@@ -50,6 +55,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="date-time"
  *      )
  * )
+ * @property int $id
+ * @property string $reports
+ * @property string|null $reports_file
+ * @property int $doctor_id
+ * @property int $emergency_id
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $doctor
+ * @property-read \App\Models\EmergencyServiced $emergency
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest newQuery()
+ * @method static Builder|EmergencyRequest onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereEmergencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereReports($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereReportsFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyRequest whereUpdatedAt($value)
+ * @method static Builder|EmergencyRequest withTrashed()
+ * @method static Builder|EmergencyRequest withoutTrashed()
+ * @mixin Eloquent
  */
 class EmergencyRequest extends Model
 {
