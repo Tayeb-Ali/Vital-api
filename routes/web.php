@@ -20,6 +20,15 @@
 
 $router->group(['prefix' => 'admin'], function () use ($router) {
     $router->get('dashboard', 'Web\DashboardWEBController@index');
+
+    //blog
+    $router->get('blog', 'Web\BlogWEBController@index');
+    $router->post('blog', 'Web\BlogWEBController@store');
+    $router->get('blog/{id}/view', 'Web\BlogWEBController@show');
+    $router->get('blog/{id}/edit', 'Web\BlogWEBController@edit');
+    $router->put('blog/{id}/update', 'Web\BlogWEBController@update');
+    $router->get('blog/{id}/delete', 'Web\BlogWEBController@destroy');
+
 });
 
 $router->get('/', function () {

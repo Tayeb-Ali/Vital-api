@@ -77,7 +77,7 @@ abstract class BaseRepository
     {
         $query = $this->allQuery();
 
-        return $query->sortable(['name' => 'asc'])->paginate($perPage, $columns);
+        return $query->orderBy('created_at', 'desc')->paginate($perPage, $columns);
     }
 
     public function paginateSortable($sortable, $perPage, $columns = ['*'])

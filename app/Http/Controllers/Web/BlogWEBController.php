@@ -8,7 +8,6 @@ use App\Repositories\BlogRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
 
 /**
  * Class BlogAPIController
@@ -28,18 +27,13 @@ class BlogWEBController extends AppBaseController
      * Display a listing of the Blog.
      * GET|HEAD /blog
      *
-     * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $blogs = $this->blogRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+        $blogs = $this->blogRepository->paginate(12);
 
-        return view('blog.index', $blogs);
+        return view('blog.index', compact('blogs'));
     }
 
     /**
@@ -67,7 +61,7 @@ class BlogWEBController extends AppBaseController
 
     /**
      * Display the specified Blog.
-     * GET|HEAD /blog/{id}
+     * GET|HEAD /blog/{id}/show
      *
      * @param int $id
      *
@@ -82,6 +76,25 @@ class BlogWEBController extends AppBaseController
             return redirect('404');
         }
         return view('blog.view', $blog);
+    }
+
+    /**
+     * Display the specified Blog.
+     * GET|HEAD /blog/{id}/edit
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        /** @var Blog $blog */
+        $blog = $this->blogRepository->find($id);
+
+        if (empty($blog)) {
+            return redirect('404');
+        }
+        return view('blog.edit', $blog);
     }
 
     /**
@@ -103,8 +116,9 @@ class BlogWEBController extends AppBaseController
         if (empty($blog)) {
             return redirect('404');
         }
-        $blog = $this->blogRepository->update($input, $id);
-        return view('blog.view', $blog);
+        $this->blogRepository->update($input, $id);
+        return redirect('admin/blog');
+
     }
 
     /**
@@ -113,7 +127,7 @@ class BlogWEBController extends AppBaseController
      *
      * @param int $id
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      *
      */
@@ -127,8 +141,7 @@ class BlogWEBController extends AppBaseController
         }
 
         $blog->delete();
-
-        return $this->sendSuccess('Blog deleted successfully');
+        return redirect('admin/blog');
     }
 
     public function saveImage($request)
