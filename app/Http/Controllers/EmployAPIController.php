@@ -139,7 +139,7 @@ class EmployAPIController extends AppBaseController
         if ($request->hasfile('cv')) {
             $image = $request->file('cv');
             $name = $userId . '_cv.' . $request->cv->extension();
-            $image->move(public_path() . '/cv/', $name);
+            $image->move(base_path() . '/cv/', $name);
             $name = url("cv/$name");
 
             return $name;

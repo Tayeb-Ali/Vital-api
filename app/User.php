@@ -3,7 +3,11 @@
 namespace App;
 
 use App\Models\{AcceptRequestSpecialists, Wallet, EmergencyServiced, Employ};
+use Eloquent;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
@@ -26,38 +30,38 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $active
  * @property string|null $confirmation_code
  * @property int $confirmed
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $email_verified_at
  * @property int $status
  * @property int $role
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $remember_token
  * @property string|null $deleted_at
- * @property-read \App\Models\AcceptRequestSpecialists|null $acceptRequest
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EmergencyServiced[] $emergency
+ * @property-read AcceptRequestSpecialists|null $acceptRequest
+ * @property-read Collection|EmergencyServiced[] $emergency
  * @property-read int|null $emergency_count
- * @property-read \App\Models\Employ|null $employ
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmationCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereFcmRegistrationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property-read Employ|null $employ
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereActive($value)
+ * @method static Builder|User whereConfirmationCode($value)
+ * @method static Builder|User whereConfirmed($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereFcmRegistrationId($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereImage($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereRole($value)
+ * @method static Builder|User whereStatus($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\Blog;
-use App\Repositories\BlogRepository;
+use App\Repositories\UserRepository;
+use App\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,35 +13,35 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 
 /**
- * Class BlogAPIController
+ * Class UserAPIController
  * @package App\Http\Controllers\API
  */
-class BlogWEBController extends AppBaseController
+class UserWEBController extends AppBaseController
 {
-    /** @var  BlogRepository */
-    private $blogRepository;
+    /** @var  UserRepository */
+    private $userRepository;
 
-    public function __construct(BlogRepository $blogRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->blogRepository = $blogRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * Display a listing of the Blog.
-     * GET|HEAD /blog
+     * GET|HEAD /users
      *
      * @return Response
      */
     public function index()
     {
-        $blogs = $this->blogRepository->paginate(10);
+        $users = $this->userRepository->paginate(10);
 
-        return view('blog.index', compact('blogs'));
+        return view('blog.index', compact('users'));
     }
 
     /**
      * Store a newly created Blog in storage.
-     * POST /blog
+     * POST /users
      *
      * @param Request $request
      *
@@ -51,13 +52,13 @@ class BlogWEBController extends AppBaseController
         $input = $request->all();
         $image = $this->saveImage($request);
         if ($image) {
-            $blog = new Blog();
-            $blog->fill($input);
-            $blog->image = $image;
-            $blog->user_id = 1;
-            $blog->save();
-            if ($blog) {
-                return redirect('admin/blog');
+            $user = new Blog();
+            $user->fill($input);
+            $user->image = $image;
+            $user->user_id = 1;
+            $user->save();
+            if ($user) {
+                return redirect('admin/users');
             }
         }
     }
@@ -65,7 +66,7 @@ class BlogWEBController extends AppBaseController
 
     /**
      * Display the specified Blog.
-     * GET|HEAD /blog/{id}/show
+     * GET|HEAD /users/{id}/show
      *
      * @param int $id
      *
@@ -73,18 +74,19 @@ class BlogWEBController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Blog $blog */
-        $blog = $this->blogRepository->find($id);
+        /** @var User $user */
 
-        if (empty($blog)) {
+        $user = $this->userRepository->find($id);
+
+        if (empty($user)) {
             return redirect('404');
         }
-        return view('blog.view', $blog);
+        return view('blog.view', $user);
     }
 
     /**
      * Display the specified Blog.
-     * GET|HEAD /blog/{id}/create
+     * GET|HEAD /users/{id}/create
      *
      * @return Response
      */
@@ -95,7 +97,7 @@ class BlogWEBController extends AppBaseController
 
     /**
      * Display the specified Blog.
-     * GET|HEAD /blog/{id}/edit
+     * GET|HEAD /users/{id}/edit
      *
      * @param int $id
      *
@@ -103,18 +105,19 @@ class BlogWEBController extends AppBaseController
      */
     public function edit($id)
     {
-        /** @var Blog $blog */
-        $blog = $this->blogRepository->find($id);
+        /** @var User $user */
 
-        if (empty($blog)) {
+        $user = $this->userRepository->find($id);
+
+        if (empty($user)) {
             return redirect('404');
         }
-        return view('blog.edit', $blog);
+        return view('blog.edit', $user);
     }
 
     /**
      * Update the specified Blog in storage.
-     * PUT/PATCH /blog/{id}/update
+     * PUT/PATCH /users/{id}/update
      *
      * @param int $id
      * @param Request $request
@@ -125,20 +128,21 @@ class BlogWEBController extends AppBaseController
     {
         $input = $request->all();
 
-        /** @var Blog $blog */
-        $blog = $this->blogRepository->find($id);
+        /** @var User $user */
 
-        if (empty($blog)) {
+        $user = $this->userRepository->find($id);
+
+        if (empty($user)) {
             return redirect('404');
         }
-        $this->blogRepository->update($input, $id);
-        return redirect('admin/blog');
+        $this->userRepository->update($input, $id);
+        return redirect('admin/users');
 
     }
 
     /**
      * Remove the specified Blog from storage.
-     * DELETE /blog/{id}
+     * DELETE /users/{id}
      *
      * @param int $id
      *
@@ -148,15 +152,15 @@ class BlogWEBController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Blog $blog */
-        $blog = $this->blogRepository->find($id);
+        /** @var User $user */
+        $user = $this->userRepository->find($id);
 
-        if (empty($blog)) {
+        if (empty($user)) {
             return $this->sendError('Blog not found');
         }
 
-        $blog->delete();
-        return redirect('admin/blog');
+        $user->delete();
+        return redirect('admin/users');
     }
 
     public function saveImage($request)
@@ -165,7 +169,7 @@ class BlogWEBController extends AppBaseController
         if ($request->hasfile('image')) {
             $image = $request->file('image');
             $name = $random . '_blog.' . $request->image->extension();
-            $image->move(base_path() . '/public/blog/', $name);
+            $image->move(base_path() . '/public/users/', $name);
             $name = url("blog/$name");
             return $name;
         }

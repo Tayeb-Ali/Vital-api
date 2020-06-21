@@ -13,33 +13,36 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">write new blog!</h1>
                         </div>
-                        <form class="user" method="post" action="{{ url('admin/blog')  }}">
+                        <form class="user" method="post" enctype='multipart/form-data'
+                              action="{{ url('admin/blog')  }}">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="title">Title</label>
                                     <input type="text"
                                            class="form-control form-control-user"
-                                           id="title" name="title" placeholder="title">
+                                           id="title" required name="title" placeholder="title">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="image">Image</label>
-                                    <input type="image" name="image"
-                                           class="form-control" id="image" alt="logo">
+                                    <input type="file" name="image"
+                                           class="form-control" required id="image">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="content">content</label>
-                                <textarea id="content" name="content"></textarea>
+                                <textarea id="content" required name="content"></textarea>
                             </div>
                             <div class="form-group row">
 
                                 <label for="status">Visible:</label>
-                                <select id="status" name="status">
+                                <select class="form-control form-control-option col col-3" id="status" required
+                                        name="status">
                                     <option value="1">yes</option>
                                     <option value="2">no</option>
                                 </select>
                                 <label for="notification">Send Notification:</label>
-                                <select id="notification" name="notification">
+                                <select class="form-control form-control-option col col-3" id="notification"
+                                        name="notification">
                                     <option value="1">yes</option>
                                     <option value="2">no</option>
                                 </select>
