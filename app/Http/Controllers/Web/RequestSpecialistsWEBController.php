@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRequestSpecialistsRequest;
-use App\Http\Requests\UpdateRequestSpecialistsRequest;
 use App\Repositories\RequestSpecialistsRepository;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
+use Illuminate\Support\Facades\Response;
 
 class RequestSpecialistsWEBController extends AppBaseController
 {
@@ -27,12 +23,11 @@ class RequestSpecialistsWEBController extends AppBaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $requestSpecialists = $this->requestSpecialistsRepository->all();
+        $requestSpecialists = $this->requestSpecialistsRepository->paginate(10);
 
-        return view('request_specialists.index')
-            ->with('requestSpecialists', $requestSpecialists);
+        return view('users.index', compact('requestSpecialists'));
     }
 
     /**
@@ -133,9 +128,9 @@ class RequestSpecialistsWEBController extends AppBaseController
      *
      * @param int $id
      *
+     * @return Response
      * @throws \Exception
      *
-     * @return Response
      */
     public function destroy($id)
     {

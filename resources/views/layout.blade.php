@@ -86,37 +86,36 @@
             <div id="collapseMedical" class="collapse" aria-labelledby="headingMedical" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Medical Field</h6>
-                    <a class="collapse-item" href="/admin/MedicalField">MedicalFields</a>
-                    <a class="collapse-item" href="/admin/MedicalField/create">Add MedicalField</a>
+                    <a class="collapse-item" href="/admin/medical_field">Medical Fields</a>
+                    <a class="collapse-item" href="/admin/medical_field/create">Add Medical Field</a>
                 </div>
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Medical Specialists</h6>
-                    <a class="collapse-item" href="/admin/MedicalSpecialists">Users</a>
-                    <a class="collapse-item" href="/admin/users/MedicalSpecialists">Add User</a>
+                    <a class="collapse-item" href="/admin/medical_specialists">Specialists</a>
+                    <a class="collapse-item" href="/admin/medical_specialists">Add Specialists</a>
                 </div>
             </div>
         </li>
 
 
-      <!-- Nav Item - Medical Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog"
-                   aria-expanded="true" aria-controls="collapseBlog">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Blog</span>
-                </a>
-                <div id="collapseBlog" class="collapse" aria-labelledby="headingBlog" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Blog</h6>
-                        <a class="collapse-item" href="/admin/blog">Blog</a>
-                        <a class="collapse-item" href="/admin/blog/create">Add Blog</a>
-                    </div>
+        <!-- Nav Item - Medical Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog"
+               aria-expanded="true" aria-controls="collapseBlog">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Blog</span>
+            </a>
+            <div id="collapseBlog" class="collapse" aria-labelledby="headingBlog" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Blog</h6>
+                    <a class="collapse-item" href="/admin/blog">Blog</a>
+                    <a class="collapse-item" href="/admin/blog/create">Add Blog</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
 
-
-    <!-- Divider -->
+        <!-- Divider -->
         <hr class="sidebar-divider">
 
         <!-- Heading -->

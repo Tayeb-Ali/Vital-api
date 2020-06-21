@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
-use App\Models\Blog;
 use App\Repositories\UserRepository;
 use App\User;
 use Exception;
@@ -36,7 +35,7 @@ class UserWEBController extends AppBaseController
     {
         $users = $this->userRepository->paginate(10);
 
-        return view('blog.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -50,17 +49,21 @@ class UserWEBController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $image = $this->saveImage($request);
-        if ($image) {
-            $user = new Blog();
+        if ($request->image->extension()) {
+            $image = $this->saveImage($request);
+            $user = new User();
             $user->fill($input);
             $user->image = $image;
-            $user->user_id = 1;
+            $user->password = app('hash')->make($input->password);
             $user->save();
-            if ($user) {
-                return redirect('admin/users');
-            }
+            return redirect('admin/users');
         }
+        $user = new User();
+        $user->fill($input);
+        $user->password = app('hash')->make($input->password);
+        $user->save();
+        return redirect('admin/users');
+
     }
 
 
@@ -81,7 +84,7 @@ class UserWEBController extends AppBaseController
         if (empty($user)) {
             return redirect('404');
         }
-        return view('blog.view', $user);
+        return view('usersview', $user);
     }
 
     /**
@@ -92,7 +95,7 @@ class UserWEBController extends AppBaseController
      */
     public function create()
     {
-        return view('blog.create');
+        return view('users.create');
     }
 
     /**
@@ -112,7 +115,7 @@ class UserWEBController extends AppBaseController
         if (empty($user)) {
             return redirect('404');
         }
-        return view('blog.edit', $user);
+        return view('users.edit', $user);
     }
 
     /**
@@ -168,9 +171,9 @@ class UserWEBController extends AppBaseController
         $random = Str::random(10);
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $name = $random . '_blog.' . $request->image->extension();
+            $name = $random . '_users' . $request->image->extension();
             $image->move(base_path() . '/public/users/', $name);
-            $name = url("blog/$name");
+            $name = url("profile/$name");
             return $name;
         }
         return false;

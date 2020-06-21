@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\AppBaseController;
+use App\Models\MedicalField;
 use App\Repositories\MedicalSpecialtyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -23,7 +25,7 @@ class MedicalSpecialtyWEBController extends AppBaseController
      */
     public function index()
     {
-        $medicalSpecialties = $this->medicalSpecialtyRepository->all();
+        $medicalSpecialties = $this->medicalSpecialtyRepository->paginate(10);
 
         return view('medical_specialties.index')
             ->with('medicalSpecialties', $medicalSpecialties);
@@ -36,7 +38,8 @@ class MedicalSpecialtyWEBController extends AppBaseController
      */
     public function create()
     {
-        return view('medical_specialties.create');
+        $medical = MedicalField::all(['name', 'id']);
+        return view('medical_specialties.create')->with('medical', $medical);
     }
 
     /**
@@ -50,7 +53,7 @@ class MedicalSpecialtyWEBController extends AppBaseController
     {
         $input = $request->all();
         $this->medicalSpecialtyRepository->create($input);
-        return redirect(route('medicalSpecialties.index'));
+        return redirect('admin/medical_specialists');
     }
 
     /**
@@ -80,14 +83,16 @@ class MedicalSpecialtyWEBController extends AppBaseController
      */
     public function edit($id)
     {
-        $medicalSpecialty = $this->medicalSpecialtyRepository->find($id);
+        $medicalSpecialty = $this->medicalSpecialtyRepository->findWith($id, 'medical');
+        $medical = MedicalField::all(['name', 'id']);
+
 
         if (empty($medicalSpecialty)) {
 
-            return redirect(route('medicalSpecialties.index'));
+            return redirect('admin/medicalSpecialties');
         }
 
-        return view('medical_specialties.edit')->with('medicalSpecialty', $medicalSpecialty);
+        return view('medical_specialties.edit', compact(['medicalSpecialty', 'medical']));
     }
 
     /**
@@ -103,14 +108,12 @@ class MedicalSpecialtyWEBController extends AppBaseController
         $medicalSpecialty = $this->medicalSpecialtyRepository->find($id);
 
         if (empty($medicalSpecialty)) {
-            Flash::error('Medical Specialty not found');
-
-            return redirect(route('medicalSpecialties.index'));
+            return redirect('admin/medical_specialists');
         }
 
         $this->medicalSpecialtyRepository->update($request->all(), $id);
 
-        return redirect(route('medicalSpecialties.index'));
+        return redirect('admin/medical_specialists');
     }
 
     /**
@@ -132,6 +135,6 @@ class MedicalSpecialtyWEBController extends AppBaseController
 
         $this->medicalSpecialtyRepository->delete($id);
 
-        return redirect(route('medicalSpecialties.index'));
+        return redirect('admin/medical_specialists');
     }
 }
