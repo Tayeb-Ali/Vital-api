@@ -87,8 +87,8 @@
             <div id="collapseMedical" class="collapse" aria-labelledby="headingMedical" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Medical Field</h6>
-                    <a class="collapse-item" href="/admin/medical_field">Medical Fields</a>
-                    <a class="collapse-item" href="/admin/medical_field/create">Add Medical Field</a>
+                    <a class="collapse-item" href="/admin/medical_fields">Medical Fields</a>
+                    <a class="collapse-item" href="/admin/medical_fields/create">Add Medical Field</a>
                 </div>
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Medical Specialists</h6>

@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="p-5 container">
                     <form class="user" method="post" enctype='multipart/form-data'
-                          action="/admin/medical_fields/{{$medicalField->id}}/update">
+                          action="{{url('/')}}/admin/medical_fields/{{$medicalField->id}}/update">
                         <input type="hidden" name="_method" value="PUT">
                         {{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
                         <div class="form-group row">

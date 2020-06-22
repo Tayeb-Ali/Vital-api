@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\AppBaseController;
 use App\Repositories\MedicalFieldRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -26,8 +27,7 @@ class MedicalFieldWEBController extends AppBaseController
     {
         $medicalFields = $this->medicalFieldRepository->paginate(10);
 
-        return view('medical_fields.index')
-            ->with('medicalFields', $medicalFields);
+        return view('medical_fields.index', compact('medicalFields'));
     }
 
     /**
@@ -71,7 +71,7 @@ class MedicalFieldWEBController extends AppBaseController
             return redirect('admin/medical_fields');
         }
 
-        return view('medical_fields.show')->with('medicalField', $medicalField);
+        return view('medical_fields.show', compact('medicalField'));
     }
 
     /**
@@ -86,10 +86,10 @@ class MedicalFieldWEBController extends AppBaseController
         $medicalField = $this->medicalFieldRepository->find($id);
 
         if (empty($medicalField)) {
-            return redirect(route('medicalFields.index'));
+            return redirect('/admin/medicalFields');
         }
 
-        return view('medical_fields.edit')->with('medicalField', $medicalField);
+        return view('medical_fields.edit', compact('medicalField'));
     }
 
     /**

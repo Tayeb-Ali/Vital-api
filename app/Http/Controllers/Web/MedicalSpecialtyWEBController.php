@@ -71,7 +71,7 @@ class MedicalSpecialtyWEBController extends AppBaseController
             return redirect(route('medicalSpecialties.index'));
         }
 
-        return view('medical_specialties.show')->with('medicalSpecialty', $medicalSpecialty);
+        return view('medical_specialties.show', compact('medicalSpecialty'));
     }
 
     /**

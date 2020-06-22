@@ -38,13 +38,13 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
     $router->put('users/{id}/update', 'Web\UserWEBController@update');
     $router->get('users/{id}/delete', 'Web\UserWEBController@destroy');
     //MedicalField
-    $router->get('medical_fields', 'Web\UserWEBController@index');
-    $router->post('medical_fields', 'Web\UserWEBController@store');
-    $router->get('medical_fields/create', 'Web\UserWEBController@create');
-    $router->get('medical_fields/{id}/view', 'Web\UserWEBController@show');
-    $router->get('medical_fields/{id}/edit', 'Web\UserWEBController@edit');
-    $router->put('medical_fields/{id}/update', 'Web\UserWEBController@update');
-    $router->get('medical_fields/{id}/delete', 'Web\UserWEBController@destroy');
+    $router->get('medical_fields', 'Web\MedicalFieldWEBController@index');
+    $router->post('medical_fields', 'Web\MedicalFieldWEBController@store');
+    $router->get('medical_fields/create', 'Web\MedicalFieldWEBController@create');
+    $router->get('medical_fields/{id}/view', 'Web\MedicalFieldWEBController@show');
+    $router->get('medical_fields/{id}/edit', 'Web\MedicalFieldWEBController@edit');
+    $router->put('medical_fields/{id}/update', 'Web\MedicalFieldWEBController@update');
+    $router->get('medical_fields/{id}/delete', 'Web\MedicalFieldWEBController@destroy');
     //medical_specialists
     $router->get('medical_specialists', 'Web\MedicalSpecialtyWEBController@index');
     $router->post('medical_specialists', 'Web\MedicalSpecialtyWEBController@store');
