@@ -58,7 +58,7 @@ class BlogWEBController extends AppBaseController
             $blog->user_id = 1;
             $blog->save();
             if ($blog) {
-                $this->send_fcm($request, $image);
+                $this->send_fcm($request, $image, $blog->id);
                 return redirect('admin/blog');
             }
         }
@@ -183,19 +183,19 @@ class BlogWEBController extends AppBaseController
     }
 
 
-    private function send_fcm($input, $image)
+    private function send_fcm($input, $image, $blogId)
     {
         $fcm = new FcmHelper();
         switch ($input->topic) {
             case 1:
-                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image);
+                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image, $blogId, 4);
                 break;
             case 2:
-                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image);
+                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image, $blogId, 4);
                 break;
             case 3:
-                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image);
-                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image);
+                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image, $blogId . 4);
+                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image, $blogId, 4);
                 break;
         }
     }

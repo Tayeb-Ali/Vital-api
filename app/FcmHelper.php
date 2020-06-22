@@ -88,9 +88,11 @@ class FcmHelper extends Model
      * @param $title
      * @param $message
      * @param null $image
+     * @param null $request
+     * @param null $status
      * @return array|bool|string
      */
-    function send_fcm_topic($topic, $title, $message, $image = null)
+    function send_fcm_topic($topic, $title, $message, $image = null, $request = null, $status = null)
     {
         $fields = array(
             'notification' =>
@@ -100,6 +102,11 @@ class FcmHelper extends Model
                     'sound' => 'default',
                     'image' => $image,
                     'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'data' =>
+                array(
+                    'requestId' => $request,
+                    'status' => $status,
                 ),
             'to' => "/topics/$topic",
 

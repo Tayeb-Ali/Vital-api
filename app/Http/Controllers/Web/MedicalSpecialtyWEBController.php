@@ -68,7 +68,7 @@ class MedicalSpecialtyWEBController extends AppBaseController
         $medicalSpecialty = $this->medicalSpecialtyRepository->find($id);
 
         if (empty($medicalSpecialty)) {
-            return redirect(route('medicalSpecialties.index'));
+            return redirect('admin/medicalSpecialties');
         }
 
         return view('medical_specialties.show', compact('medicalSpecialty'));
