@@ -13,7 +13,8 @@
                             <h1 class="h4 text-gray-900 mb-4">write new blog!</h1>
                         </div>
                         <form class="user" method="post" enctype='multipart/form-data'
-                              action="{{ url('admin/blog')  }}">
+                              action="/admin/blog/{{$blog->id}}/update">
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="title">Title</label>

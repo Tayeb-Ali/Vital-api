@@ -24,7 +24,7 @@ class MedicalFieldWEBController extends AppBaseController
      */
     public function index()
     {
-        $medicalFields = $this->medicalFieldRepository->all();
+        $medicalFields = $this->medicalFieldRepository->paginate(10);
 
         return view('medical_fields.index')
             ->with('medicalFields', $medicalFields);
@@ -53,7 +53,7 @@ class MedicalFieldWEBController extends AppBaseController
 
         $this->medicalFieldRepository->create($input);
 
-        return redirect(route('medicalFields.index'));
+        return redirect('admin/medical_fields');
     }
 
     /**
@@ -69,7 +69,7 @@ class MedicalFieldWEBController extends AppBaseController
 
         if (empty($medicalField)) {
 
-            return redirect(route('medicalFields.index'));
+            return redirect('admin/medical_fields');
         }
 
         return view('medical_fields.show')->with('medicalField', $medicalField);
@@ -107,12 +107,12 @@ class MedicalFieldWEBController extends AppBaseController
 
         if (empty($medicalField)) {
 
-            return redirect(route('medicalFields.index'));
+            return redirect('admin/medical_fields');
         }
 
         $this->medicalFieldRepository->update($request->all(), $id);
 
-        return redirect(route('medicalFields.index'));
+        return redirect('admin/medical_fields');
     }
 
     /**
@@ -129,11 +129,11 @@ class MedicalFieldWEBController extends AppBaseController
         $medicalField = $this->medicalFieldRepository->find($id);
 
         if (empty($medicalField)) {
-            return redirect(route('medicalFields.index'));
+            return redirect('admin/medical_fields');
         }
 
         $this->medicalFieldRepository->delete($id);
 
-        return redirect(route('medicalFields.index'));
+        return redirect('admin/medical_fields');
     }
 }

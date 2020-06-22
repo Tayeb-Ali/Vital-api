@@ -38,13 +38,13 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
     $router->put('users/{id}/update', 'Web\UserWEBController@update');
     $router->get('users/{id}/delete', 'Web\UserWEBController@destroy');
     //MedicalField
-    $router->get('MedicalField', 'Web\UserWEBController@index');
-    $router->post('MedicalField', 'Web\UserWEBController@store');
-    $router->get('MedicalField/create', 'Web\UserWEBController@create');
-    $router->get('MedicalField/{id}/view', 'Web\UserWEBController@show');
-    $router->get('MedicalField/{id}/edit', 'Web\UserWEBController@edit');
-    $router->put('MedicalField/{id}/update', 'Web\UserWEBController@update');
-    $router->get('MedicalField/{id}/delete', 'Web\UserWEBController@destroy');
+    $router->get('medical_fields', 'Web\UserWEBController@index');
+    $router->post('medical_fields', 'Web\UserWEBController@store');
+    $router->get('medical_fields/create', 'Web\UserWEBController@create');
+    $router->get('medical_fields/{id}/view', 'Web\UserWEBController@show');
+    $router->get('medical_fields/{id}/edit', 'Web\UserWEBController@edit');
+    $router->put('medical_fields/{id}/update', 'Web\UserWEBController@update');
+    $router->get('medical_fields/{id}/delete', 'Web\UserWEBController@destroy');
     //medical_specialists
     $router->get('medical_specialists', 'Web\MedicalSpecialtyWEBController@index');
     $router->post('medical_specialists', 'Web\MedicalSpecialtyWEBController@store');
@@ -64,7 +64,7 @@ $router->get('/', function () {
 
 $router->get('topic', function () {
     $dd = new \App\FcmHelper();
-    return $dd->send_android_fcm_topic('doctor', 'welcome', 'wellcom in Hawjah app', 1);
+    return $dd->send_android_fcm_topic('doctor', 'welcome', 'welcome in Hawjah app', 1);
 
 });
 

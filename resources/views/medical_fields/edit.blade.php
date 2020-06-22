@@ -8,26 +8,16 @@
             <div class="row">
                 <div class="p-5 container">
                     <form class="user" method="post" enctype='multipart/form-data'
-                          action="/admin/medical_specialists/{{$medicalSpecialty->id}}/update">
+                          action="/admin/medical_fields/{{$medicalField->id}}/update">
                         <input type="hidden" name="_method" value="PUT">
+                        {{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <label for="name">The name of Specialty</label>
+                                <label for="name">Medical Field Name:</label>
                                 <input type="text"
                                        class="form-control"
-                                       id="name" required name="name" value="{{$medicalSpecialty->name}}"
+                                       id="name" required name="name" value="{{$medicalField->name}}"
                                        placeholder="name">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="medicalId">Re-Select Medical Field</label>
-                                <select name="medical_id" class="form-control" id="medicalId">
-                                    @foreach($medical as $medical)
-                                        <option value="{{$medical->id}}">{{$medical->name}}</option>
-                                    @endforeach
-                                </select>
-
-
                             </div>
                             <button type="submit" class="btn btn-google btn-user btn-block">
                                 Save
