@@ -79,7 +79,7 @@ class BlogWEBController extends AppBaseController
         if (empty($blog)) {
             return redirect('404');
         }
-        return view('blog.view', $blog);
+        return view('blog.view', compact('blog'));
     }
 
     /**
@@ -109,7 +109,7 @@ class BlogWEBController extends AppBaseController
         if (empty($blog)) {
             return redirect('404');
         }
-        return view('blog.edit', $blog);
+        return view('blog.edit', compact('blog'));
     }
 
     /**
@@ -123,8 +123,16 @@ class BlogWEBController extends AppBaseController
      */
     public function update($id, Request $request)
     {
-        $input = $request->all();
 
+        $input = $request->all();
+        if ($request->image) {
+            $image = $this->saveImage($request);
+            $blog = Blog::find($id);
+            $blog->fill($input);
+            $blog->image = $image;
+            $blog->save();
+            return redirect('admin/blog');
+        }
         /** @var Blog $blog */
         $blog = $this->blogRepository->find($id);
 

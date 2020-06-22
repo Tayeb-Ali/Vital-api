@@ -6,7 +6,6 @@
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
@@ -44,6 +43,14 @@
                                         name="notification">
                                     <option value="1">yes</option>
                                     <option value="2">no</option>
+                                </select>
+
+                                <label for="notificationTopic">Select notification Topic:</label>
+                                <select class="form-control form-control-option col col-3" id="notificationTopic"
+                                        name="topic">
+                                    <option value="1">Doctor</option>
+                                    <option value="2">Provider</option>
+                                    <option value="3">All</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-google btn-user btn-block">Save

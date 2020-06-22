@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FcmHelper;
 use App\Repositories\MedicalFieldRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -52,7 +53,7 @@ class MedicalFieldWEBController extends AppBaseController
         $input = $request->all();
 
         $this->medicalFieldRepository->create($input);
-
+        $this->send_fcm($input);
         return redirect('admin/medical_fields');
     }
 
@@ -135,5 +136,22 @@ class MedicalFieldWEBController extends AppBaseController
         $this->medicalFieldRepository->delete($id);
 
         return redirect('admin/medical_fields');
+    }
+
+    private function send_fcm($input)
+    {
+        $fcm = new FcmHelper();
+        switch ($input->topic) {
+            case 1:
+                $fcm->send_fcm_topic_requests('doctor', $input->title, 'new blog' . $input->title);
+                break;
+            case 2:
+                $fcm->send_fcm_topic_requests('provider', $input->title, 'new blog' . $input->title);
+                break;
+            case 3:
+                $fcm->send_fcm_topic_requests('doctor', $input->title, 'new blog' . $input->title);
+                $fcm->send_fcm_topic_requests('provider', $input->title, 'new blog' . $input->title);
+                break;
+        }
     }
 }
