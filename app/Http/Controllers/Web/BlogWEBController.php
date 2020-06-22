@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\FcmHelper;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Blog;
 use App\Repositories\BlogRepository;
@@ -57,6 +58,7 @@ class BlogWEBController extends AppBaseController
             $blog->user_id = 1;
             $blog->save();
             if ($blog) {
+                $this->send_fcm($request, $image);
                 return redirect('admin/blog');
             }
         }
@@ -178,5 +180,23 @@ class BlogWEBController extends AppBaseController
             return $name;
         }
         return false;
+    }
+
+
+    private function send_fcm($input, $image)
+    {
+        $fcm = new FcmHelper();
+        switch ($input->topic) {
+            case 1:
+                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image);
+                break;
+            case 2:
+                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image);
+                break;
+            case 3:
+                $fcm->send_fcm_topic('doctor', $input->title, 'New blog: ' . $input->content, $image);
+                $fcm->send_fcm_topic('provider', $input->title, 'New blog: ' . $input->content, $image);
+                break;
+        }
     }
 }

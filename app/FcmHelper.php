@@ -87,6 +87,32 @@ class FcmHelper extends Model
      * @param $topic
      * @param $title
      * @param $message
+     * @param null $image
+     * @return array|bool|string
+     */
+    function send_fcm_topic($topic, $title, $message, $image = null)
+    {
+        $fields = array(
+            'notification' =>
+                array(
+                    'title' => $title,
+                    'body' => $message,
+                    'sound' => 'default',
+                    'image' => $image,
+                    'click_action' => 'FCM_PLUGIN_ACTIVITY',
+                ),
+            'to' => "/topics/$topic",
+
+        );
+
+        return $this->send_message($fields);
+    }
+
+
+    /**
+     * @param $topic
+     * @param $title
+     * @param $message
      * @param null $request
      * @return array|bool|string
      */
