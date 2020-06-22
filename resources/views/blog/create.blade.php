@@ -17,7 +17,7 @@
                                     <label for="title">Title</label>
                                     <input type="text"
                                            class="form-control form-control-user"
-                                           id="title" " required name="title"
+                                           id="title" required name="title"
                                            placeholder="title">
                                 </div>
                                 <div class="col-sm-6">
@@ -57,7 +57,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-google btn-user btn-block">
-                                Update
+                                Save
                             </button>
                         </form>
                     </div>

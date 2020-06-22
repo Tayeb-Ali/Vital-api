@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\EmergencyServiced;
 use App\Models\RequestSpecialists;
 use App\User;
+use Carbon\Carbon;
 
 /**
  * Class DashboardWEBController
@@ -21,26 +22,33 @@ class DashboardWEBController extends AppBaseController
      */
     public function index()
     {
-//        return [
-//            'data' =>
-//         $data = [
-//             $this->users(),
-////            'medicalRequest' => $this->medicalRequests(),
-////            'emergency' => $this->emergencyRequests()
-////            ]
-//        ];
         $requests = RequestSpecialists::all()->count();
         $doctor = User::whereRole(4)->count();
         $provider = User::whereRole(3)->count();
         $userCount = User::all()->count();
         $pharmacists = User::whereRole(5)->count();
 
+//        $record = RequestSpecialists::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
+////            ->where('created_at', '>', Carbon::today()->subDay(6))
+//            ->groupBy('day_name','day')
+//            ->orderBy('day')
+//            ->get();
 
-        $users = User::orderBy('created_at', 'desc')
-            ->paginate(20);
+//        $data = [];
+
+//        foreach($record as $row) {
+//            $data['label'][] = $row->day_name;
+//            $data['data'][] = (int) $row->count;
+//        }
+
+//        $chart_data = json_encode($data);
+
+//        $users = User::orderBy('created_at', 'desc')
+//            ->paginate(20);
+//        $dataSet = [0, 9000, 5000, 40000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000];
+//        $dataSet= json_encode($dataSet);
 
         return view('dashboard.index', compact([
-            'users',
             'userCount',
             'provider',
             'doctor',
