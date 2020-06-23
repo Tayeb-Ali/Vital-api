@@ -106,4 +106,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->delete('emergency_request/{id}', 'AmbulanceAPIController@destroy');
     $router->post('emergency_request', 'AmbulanceAPIController@store');
     $router->put('emergency_request/{id}', 'AmbulanceAPIController@update');
+    //Blog
+    $router->get('blog', 'BlogAPIController@index');
+    $router->get('blog/{id}', 'BlogAPIController@show');
 });

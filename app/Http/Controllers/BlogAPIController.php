@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Repositories\BlogRepository;
+use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 
@@ -27,19 +28,12 @@ class BlogAPIController extends AppBaseController
     /**
      * Display a listing of the Blog.
      * GET|HEAD /blog
-     *
-     * @param Request $request
-     * @return Response
+     **
+     * @return LengthAwarePaginator
      */
-    public function index(Request $request)
+    public function index()
     {
-        $blogs = $this->blogRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
-
-        return $this->sendResponse($blogs->toArray(), 'Blog retrieved successfully');
+        return $blogs = $this->blogRepository->paginate(15);
     }
 
     /**
@@ -109,7 +103,7 @@ class BlogAPIController extends AppBaseController
      * @param int $id
      *
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      *
      */
     public function destroy($id)
@@ -124,19 +118,5 @@ class BlogAPIController extends AppBaseController
         $blog->delete();
 
         return $this->sendSuccess('Blog deleted successfully');
-    }
-
-    public function saveImage($request)
-    {
-        $random = Str::random(10);
-        if ($request->hasfile('image')) {
-            $image = $request->file('image');
-            $name = $random . '_blog.' . $request->cv->extension();
-            $image->move(public_path() . '/blog/', $name);
-            $name = url("blog/$name");
-
-            return $name;
-        }
-        return false;
     }
 }
