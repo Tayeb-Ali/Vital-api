@@ -58,7 +58,9 @@ class BlogWEBController extends AppBaseController
             $blog->user_id = 1;
             $blog->save();
             if ($blog) {
-                $this->send_fcm($request, $image, $blog->id);
+                if ($input->notification = 1) {
+                    $this->send_fcm($request, $image, $blog->id);
+                }
                 return redirect('admin/blog');
             }
         }
