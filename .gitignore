@@ -6,3 +6,4 @@ Homestead.yaml
 .phpunit.result.cache
 error_log
 .ftpquota
+/cgi-bin
