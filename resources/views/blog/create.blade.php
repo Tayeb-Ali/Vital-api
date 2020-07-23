@@ -27,8 +27,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="content">content</label>
-                                <textarea id="content" required name="content">
+                                <label for="summernote">content</label>
+                                <textarea id="summernote" required name="content">
                                 </textarea>
                             </div>
 
