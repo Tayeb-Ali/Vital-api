@@ -17,7 +17,7 @@ class CreateBlogsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('image')->nullable();
-            $table->text('content');
+            $table->longText('content');
             $table->boolean('notification')->default(true);
             $table->boolean('status')->default(true);
 
