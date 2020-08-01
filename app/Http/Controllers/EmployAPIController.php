@@ -46,20 +46,14 @@ class EmployAPIController extends AppBaseController
      * Store a newly created Employ in storage.
      * POST /employs
      *
-     * @param CreateEmployAPIRequest $request
+     * @param Request $request
      *
      * @return Response
      */
     public function store(Request $request)
     {
-        $request->merge(['cv' => 'null']);
-        $input = $request->all();
-        $employ = $this->employRepository->createApi($input);
-        $user = User::where('id', Auth::user()->id)->first();
-        $user->status = env('STATUS_MEDICAL');
-        $user->save();
-        $wallet = new Wallet();
-        $wallet->createWallet();
+//        $request->merge(['cv' => 'null']);
+        $employ = $this->employRepository->createApi($request);
         return $this->sendResponse($employ->toArray(), 'Employ saved successfully');
     }
 
@@ -132,18 +126,5 @@ class EmployAPIController extends AppBaseController
         return $this->sendSuccess('Employ deleted successfully');
     }
 
-    public function saveFile($request)
-    {
-        $userId = Auth::user()->id;
-//        $random = Str::random(10);
-        if ($request->hasfile('cv')) {
-            $image = $request->file('cv');
-            $name = $userId . '_cv.' . $request->cv->extension();
-            $image->move(base_path() . '/cv/', $name);
-            $name = url("cv/$name");
 
-            return $name;
-        }
-        return false;
-    }
 }

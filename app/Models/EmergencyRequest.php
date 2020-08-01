@@ -122,4 +122,9 @@ class EmergencyRequest extends Model
         return $this->belongsTo(EmergencyServiced::class, 'emergency_id');
     }
 
+    public function fileSave()
+    {
+        return $this->hasMany(FileSave::class, 'emergency_id');
+    }
+
 }
